@@ -9,16 +9,16 @@ coverage:
       - v409-23.1.a
     event_classes:
       EVT-22-3-A:
-        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-FIREWALL]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-FIREWALL, SRC-IDP]
         detection_rules: [zokb-auth-failed-logons-bruteforce, zokb-auth-failed-logons-correlation]
       EVT-22-3-B:
-        log_sources: [SRC-WINDOWS, SRC-LINUX]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-IDP]
         detection_rules: [zokb-auth-failed-logons-correlation]
       EVT-22-3-C:
-        log_sources: [SRC-WINDOWS, SRC-LINUX]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-IDP]
         detection_rules: [zokb-auth-failed-logons-correlation]
       EVT-22-3-D:
-        log_sources: [SRC-WINDOWS, SRC-LINUX]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-IDP]
         detection_rules: [zokb-auth-failed-logons-bruteforce]
       EVT-22-3-E:
         log_sources: [SRC-WINDOWS, SRC-LINUX]
