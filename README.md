@@ -11,6 +11,8 @@ This repository implements a 4-layer model:
 3. **Detection baseline** (`detections/`) – Sigma rules portable across SIEM backends.
 4. **Coverage and CI** (`mappings/`, `tools/`, `.github/workflows/`) – traceability and automatic checks.
 
+> 📊 See **[docs/architecture.md](docs/architecture.md)** for dependency graphs visualizing how these layers connect (Mermaid diagrams with ASCII fallbacks).
+
 ## Regime model (single shared baseline + profile dimension)
 
 The shared baseline is represented in `logging/*` and `catalog/detection-controls.yaml`.
