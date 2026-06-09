@@ -55,8 +55,7 @@ note: Cloud IdP sign-in and audit logs.
 Rules enforced by `tools/coverage_check.py`:
 
 - **`id` must be unique** across all files in `logging/sources/` and follow the
-  `SRC-*` convention (existing: `SRC-WINDOWS`, `SRC-LINUX`, `SRC-FIREWALL`,
-  `SRC-IDP`).
+  `SRC-*` convention (existing: `SRC-WINDOWS`, `SRC-LINUX`, `SRC-FIREWALL`).
 - **Every `EVT-*`** you list must already be defined in
   `logging/event-classes.yaml` (§22(3) a–j) or
   `logging/event-classes-detection.yaml` (§9(1) a–c).
@@ -89,7 +88,7 @@ lets you detect something not yet covered (e.g. impossible-travel sign-ins from
 an IdP), add a Sigma rule under `detections/` and reference its id in the
 matrix's `detection_rules`.
 
-See `logging/sources/idp.yaml` for a complete worked example.
+The YAML snippet above is a complete worked IDP example kept here for reference.
 
 ---
 

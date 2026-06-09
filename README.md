@@ -61,10 +61,9 @@ python3 tools/coverage_check.py
 
 See **[CONTRIBUTING.md](CONTRIBUTING.md)** for how to extend the baseline. The most
 common change — **adding a new log source** — is a 2-file edit (a definition under
-`logging/sources/` plus wiring in `mappings/coverage.yaml`); `logging/sources/idp.yaml`
-is a worked example. `tools/coverage_check.py` enforces that every referenced log
-source resolves to a file, that there are no orphan sources, and that sources only
-reference event classes and fields that exist.
+`logging/sources/` plus wiring in `mappings/coverage.yaml`). `tools/coverage_check.py`
+enforces that every referenced log source resolves to a file, that there are no
+orphan sources, and that sources only reference event classes and fields that exist.
 
 ## Licensing
 
