@@ -1,0 +1,362 @@
+catalog:
+  uuid: 11783d64-e1e7-4d8a-ac07-fa627f654f61
+  metadata:
+    title: Vyhláška č. 409/2025 Sb. - katalog požadavků pro detekci, zaznamenávání a vyhodnocování událostí
+    last-modified: '2026-06-09T09:22:07Z'
+    version: '1.0.0'
+    oscal-version: 1.1.2
+    roles:
+      - id: regulator
+        title: Regulator
+    parties:
+      - uuid: a90a9932-82dc-44ec-8d66-c7f7bf5dbf71
+        type: organization
+        name: Národní úřad pro kybernetickou a informační bezpečnost (NÚKIB)
+    responsible-parties:
+      - role-id: regulator
+        party-uuids:
+          - a90a9932-82dc-44ec-8d66-c7f7bf5dbf71
+  groups:
+    - id: v409-sec21
+      title: § 21 Detekce
+      controls:
+        - id: v409-21
+          title: §21 Detekce (referenční kontrola)
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: '21'
+          parts:
+            - id: v409-21-statement
+              name: statement
+              prose: "§ 21 Detekce (referenční ustanovení pro detekované události navazující v §22 a §23)."
+            - id: v409-21-note
+              name: note
+              prose: "Summary: Detection under §21 is the legal anchor for downstream logging (§22) and continuous evaluation (§23)."
+    - id: v409-sec22
+      title: § 22 Zaznamenávání událostí
+      controls:
+        - id: v409-22.1
+          title: §22(1) Určení a aktualizace rozsahu technických aktiv
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 22(1)
+          parts:
+            - id: v409-22.1.a
+              name: item
+              prose: "Povinná osoba na základě hodnocení aktiv a svých bezpečnostních potřeb určí technická aktiva, u kterých je zaznamenávání bezpečnostních a relevantních provozních událostí prováděno."
+            - id: v409-22.1.b
+              name: item
+              prose: "Povinná osoba aktualizuje rozsah technických aktiv podle odstavce 1 písm. a) v pravidelných intervalech a při významných změnách."
+            - id: v409-22.1-note
+              name: note
+              prose: "Summary: Logging scope is risk-based and must be periodically maintained."
+        - id: v409-22.2
+          title: §22(2) Co musí být zaznamenáváno
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 22(2)
+          parts:
+            - id: v409-22.2.a
+              name: item
+              prose: "Povinná osoba zaznamenává bezpečnostní a relevantní provozní události detekované podle § 21."
+            - id: v409-22.2.b
+              name: item
+              prose: "Povinná osoba zaznamenává bezpečnostní a relevantní provozní události v rámci komunikační sítě."
+            - id: v409-22.2.c
+              name: item
+              prose: "Povinná osoba zaznamenává bezpečnostní a relevantní provozní události na síťovém perimetru."
+            - id: v409-22.2.d
+              name: item
+              prose: "Povinná osoba zaznamenává bezpečnostní a relevantní provozní události technických aktiv určených podle odstavce 1 písm. a)."
+            - id: v409-22.2-note
+              name: note
+              prose: "Summary: Events must be captured from detected events, network, perimeter and scoped assets."
+        - id: v409-22.3
+          title: §22(3) Třídy zaznamenávaných událostí
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 22(3)
+          parts:
+            - id: v409-22.3.a
+              name: item
+              prose: "Povinná osoba zaznamenává přihlašování a odhlašování ke všem účtům, a to včetně neúspěšných pokusů."
+            - id: v409-22.3.b
+              name: item
+              prose: "Povinná osoba zaznamenává provedení a neúspěšné pokusy o provedení privilegované činnosti."
+            - id: v409-22.3.c
+              name: item
+              prose: "Povinná osoba zaznamenává manipulace a neúspěšné pokusy o manipulaci s účty, oprávněními a právy."
+            - id: v409-22.3.d
+              name: item
+              prose: "Povinná osoba zaznamenává neprovedení činností v důsledku nedostatku přístupových práv nebo oprávnění."
+            - id: v409-22.3.e
+              name: item
+              prose: "Povinná osoba zaznamenává zahájení a ukončení činností technických aktiv."
+            - id: v409-22.3.f
+              name: item
+              prose: "Povinná osoba zaznamenává kritická a chybová hlášení technických aktiv."
+            - id: v409-22.3.g
+              name: item
+              prose: "Povinná osoba zaznamenává přístupy a neúspěšné pokusy o přístupy k záznamům událostí."
+            - id: v409-22.3.h
+              name: item
+              prose: "Povinná osoba zaznamenává manipulace a neúspěšné pokusy o manipulaci se záznamy událostí."
+            - id: v409-22.3.i
+              name: item
+              prose: "Povinná osoba zaznamenává změny a neúspěšné pokusy o změny nastavení nástrojů pro zaznamenávání událostí."
+            - id: v409-22.3.j
+              name: item
+              prose: "Povinná osoba zaznamenává další činnosti uživatelů, které mohou mít vliv na bezpečnost regulované služby."
+            - id: v409-22.3-note
+              name: note
+              prose: "Summary: Ten mandatory event classes define the minimum logging taxonomy for higher-obligation entities."
+        - id: v409-22.4
+          title: §22(4) Povinné informace o události
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 22(4)
+          parts:
+            - id: v409-22.4.a
+              name: item
+              prose: "Povinná osoba zaznamenává datum a čas včetně specifikace časového pásma."
+            - id: v409-22.4.b
+              name: item
+              prose: "Povinná osoba zaznamenává typ činnosti."
+            - id: v409-22.4.c
+              name: item
+              prose: "Povinná osoba zaznamenává jednoznačnou identifikaci technického aktiva, které činnost zaznamenalo, a to i v případě, kdy v komunikační síti dochází ke změně této síťové identifikace."
+            - id: v409-22.4.d
+              name: item
+              prose: "Povinná osoba zaznamenává jednoznačnou identifikaci účtu, pod kterým byla činnost provedena, a to i v případě, kdy v komunikační síti dochází ke změně této síťové identifikace."
+            - id: v409-22.4.e
+              name: item
+              prose: "Povinná osoba zaznamenává jednoznačnou identifikaci zařízení původce, a to i v případě, kdy v komunikační síti dochází ke změně této síťové identifikace."
+            - id: v409-22.4.f
+              name: item
+              prose: "Povinná osoba zaznamenává úspěšnost nebo neúspěšnost činnosti."
+            - id: v409-22.4-note
+              name: note
+              prose: "Summary: Six mandatory fields including stable identifiers (asset, account, originating device) and outcome."
+        - id: v409-22.5.a
+          title: §22(5)(a) Důvěrnost a integrita záznamů
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 22(5)(a)
+          parts:
+            - id: v409-22.5.a-statement
+              name: statement
+              prose: "Povinná osoba zajistí důvěrnost a integritu získaných informací, včetně ochrany před neoprávněným čtením a jakoukoliv změnou."
+            - id: v409-22.5.a-note
+              name: note
+              prose: "Summary: Integrity and confidentiality protections for logs are mandatory."
+        - id: v409-22.5.b
+          title: §22(5)(b) Centralizovaný sběr a uchovávání
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 22(5)(b)
+          parts:
+            - id: v409-22.5.b-statement
+              name: statement
+              prose: "Povinná osoba používá s ohledem na vazby mezi aktivy centralizovaný nástroj pro sběr a uchovávání záznamů těchto událostí."
+            - id: v409-22.5.b-note
+              name: note
+              prose: "Summary: Centralized collection tooling is mandatory."
+        - id: v409-22.5.c
+          title: §22(5)(c) Uchovávání záznamů
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 22(5)(c)
+          params:
+            - id: retention-months
+              label: Minimální retenční doba
+              values:
+                - '18'
+          parts:
+            - id: v409-22.5.c-statement
+              name: statement
+              prose: "Povinná osoba uchovává záznamy těchto událostí alespoň po dobu 18 měsíců."
+            - id: v409-22.5.c-note
+              name: note
+              prose: "Summary: Retention period is mandatory and must be >= 18 months."
+        - id: v409-22.6
+          title: §22(6) Synchronizace času
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 22(6)
+          params:
+            - id: time-sync
+              label: Nepřetržitá synchronizace času
+              values:
+                - required
+          parts:
+            - id: v409-22.6-statement
+              name: statement
+              prose: "Povinná osoba zajišťuje nepřetržitou synchronizaci jednotného času technických aktiv."
+            - id: v409-22.6-note
+              name: note
+              prose: "Summary: Continuous time synchronization (e.g., NTP) is mandatory."
+    - id: v409-sec23
+      title: § 23 Vyhodnocování kybernetických bezpečnostních událostí
+      controls:
+        - id: v409-23.1.a
+          title: §23(1)(a) Sběr, vyhledávání a seskupování záznamů
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 23(1)(a)
+          parts:
+            - id: v409-23.1.a-statement
+              name: statement
+              prose: "Povinná osoba používá nástroj pro nepřetržité vyhodnocování kybernetických bezpečnostních událostí detekovaných podle § 21, který zajišťuje sběr, vyhledávání a seskupování souvisejících záznamů za účelem detekce kybernetických bezpečnostních událostí."
+            - id: v409-23.1.a-note
+              name: note
+              prose: "Summary: SIEM-like correlation capabilities are required."
+        - id: v409-23.1.b
+          title: §23(1)(b) Nepřetržité informace a včasné varování
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 23(1)(b)
+          parts:
+            - id: v409-23.1.b-statement
+              name: statement
+              prose: "Povinná osoba používá nástroj pro nepřetržité vyhodnocování kybernetických bezpečnostních událostí detekovaných podle § 21, který zajišťuje nepřetržité poskytování informací o detekovaných kybernetických bezpečnostních událostech, včasné varování vybraných bezpečnostních rolí a dalších relevantních osob."
+            - id: v409-23.1.b-note
+              name: note
+              prose: "Summary: Continuous alerting and warning dissemination is required."
+        - id: v409-23.1.c
+          title: §23(1)(c) Vyhodnocování k identifikaci incidentů
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 23(1)(c)
+          parts:
+            - id: v409-23.1.c-statement
+              name: statement
+              prose: "Povinná osoba používá nástroj pro nepřetržité vyhodnocování kybernetických bezpečnostních událostí detekovaných podle § 21, který zajišťuje vyhodnocování kybernetických bezpečnostních událostí s cílem identifikace kybernetických bezpečnostních incidentů."
+            - id: v409-23.1.c-note
+              name: note
+              prose: "Summary: Continuous evaluation must support incident identification."
+        - id: v409-23.2.a
+          title: §23(2)(a) Omezení nesprávného vyhodnocování
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 23(2)(a)
+          parts:
+            - id: v409-23.2.a-statement
+              name: statement
+              prose: "Povinná osoba při používání nástroje pro nepřetržité vyhodnocování kybernetických bezpečnostních událostí v souladu s odstavcem 1 zajistí omezení případů nesprávného nebo nežádoucího vyhodnocování kybernetických bezpečnostních událostí."
+            - id: v409-23.2.a-note
+              name: note
+              prose: "Summary: False positive and undesired evaluations must be reduced."
+        - id: v409-23.2.b
+          title: §23(2)(b) Aktualizace nastavení a pravidel nástroje
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 23(2)(b)
+          parts:
+            - id: v409-23.2.b-statement
+              name: statement
+              prose: "Povinná osoba při používání nástroje pro nepřetržité vyhodnocování kybernetických bezpečnostních událostí v souladu s odstavcem 1 zajistí pravidelnou aktualizaci nastavení nástroje včetně jeho pravidel pro detekci a vyhodnocování kybernetických bezpečnostních událostí."
+            - id: v409-23.2.b-note
+              name: note
+              prose: "Summary: Detection and evaluation rules/configuration must be regularly updated."
+        - id: v409-23.2.c
+          title: §23(2)(c) Aktualizace pravidel informování a varování
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 23(2)(c)
+          parts:
+            - id: v409-23.2.c-statement
+              name: statement
+              prose: "Povinná osoba při používání nástroje pro nepřetržité vyhodnocování kybernetických bezpečnostních událostí v souladu s odstavcem 1 zajistí pravidelnou aktualizaci pravidel pro nepřetržité poskytování informací o detekovaných kybernetických bezpečnostních událostech včetně včasného varování vybraných bezpečnostních rolí a dalších relevantních osob."
+            - id: v409-23.2.c-note
+              name: note
+              prose: "Summary: Alerting and communication rules require regular maintenance."
+        - id: v409-23.3
+          title: §23(3) Využití výsledků pro ISMS
+          props:
+            - name: regime
+              value: higher
+            - name: regulation
+              value: vyhlaska-409-2025
+            - name: paragraph
+              value: 23(3)
+          parts:
+            - id: v409-23.3-statement
+              name: statement
+              prose: "Povinná osoba zajistí využívání informací získaných nástrojem pro vyhodnocení kybernetických bezpečnostních událostí pro optimální nastavení systému řízení bezpečnosti informací regulované služby."
+            - id: v409-23.3-note
+              name: note
+              prose: "Summary: SIEM outcomes must feed back into ISMS optimization."
+  back-matter:
+    resources:
+      - uuid: 293eb4b0-48fd-4f65-8e31-edbbec11213a
+        title: Vyhláška č. 409/2025 Sb. (e-Sbírka)
+        rlinks:
+          - href: https://www.e-sbirka.cz/sb/2025/409
+      - uuid: 88110d4f-145a-4f4e-ab7a-340a4e7769ca
+        title: Vyhláška č. 409/2025 Sb. (Zákony pro lidi)
+        rlinks:
+          - href: https://www.zakonyprolidi.cz/cs/2025-409
+      - uuid: 102f4660-9345-4ecc-8237-3bf1abca2739
+        title: Zákon č. 264/2025 Sb.
+        rlinks:
+          - href: https://www.zakonyprolidi.cz/cs/2025-264

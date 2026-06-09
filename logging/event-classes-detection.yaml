@@ -1,0 +1,38 @@
+version: 1
+event_classes:
+  - id: EVT-DET-PERIMETER
+    ref: v410-9.1.a
+    title: Perimeter verification and blocking of unwanted communication
+    ecs:
+      event.category: [network]
+      event.type: [connection, denied]
+    ocsf:
+      class_uid: 4002
+      class_name: Network Activity
+    attack: [T1046, T1562.004]
+    outcomes: [success, failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-F]
+  - id: EVT-DET-MALWARE
+    ref: v410-9.1.b
+    title: Automated malware detection events
+    ecs:
+      event.category: [malware]
+      event.type: [info, indicator]
+    ocsf:
+      class_uid: 2004
+      class_name: Malware Detection
+    attack: [T1059, T1204]
+    outcomes: [success, failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-F]
+  - id: EVT-DET-AUTORUN
+    ref: v410-9.1.c
+    title: Removable-media autorun control events
+    ecs:
+      event.category: [host]
+      event.type: [change, denied]
+    ocsf:
+      class_uid: 1007
+      class_name: Process Activity
+    attack: [T1091]
+    outcomes: [success, failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-F]

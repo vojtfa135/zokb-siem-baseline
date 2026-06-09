@@ -1,0 +1,52 @@
+schema_version: 1
+profile_id: lower
+title: Nižší povinnosti baseline (vyhláška 410/2025)
+source_catalogs:
+  - catalog/vyhlaska-410-2025.oscal.yaml
+  - catalog/detection-controls.yaml
+control_selections:
+  include:
+    - v410-9.1.a
+    - v410-9.1.b
+    - v410-9.1.c
+    - v410-9.1.d
+    - v410-9.1.e
+    - v410-9.2.a
+    - v410-9.2.b
+    - v410-9.3
+event_classes:
+  mandatory:
+    - EVT-DET-PERIMETER
+    - EVT-DET-MALWARE
+    - EVT-DET-AUTORUN
+  recommended:
+    - EVT-22-3-A
+    - EVT-22-3-B
+    - EVT-22-3-C
+    - EVT-22-3-D
+    - EVT-22-3-E
+    - EVT-22-3-F
+    - EVT-22-3-G
+    - EVT-22-3-H
+    - EVT-22-3-I
+    - EVT-22-3-J
+required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-F
+tailoring:
+  field_stability_across_reip: false
+  account_id_uniqueness: false
+  centralized_collection: false
+  log_integrity_controls: false
+  time_sync_ntp: false
+  correlation_siem: false
+parameters:
+  retention_months: self-determined
+  retention_justification_required: true
+detection_rules:
+  - zokb-net-perimeter-block
+  - zokb-malware-antimalware-detection
+  - zokb-host-removable-media-autorun

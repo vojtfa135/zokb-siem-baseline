@@ -1,0 +1,58 @@
+version: 1
+coverage:
+  higher:
+    profile: higher
+    controls:
+      - v409-22.3
+      - v409-22.4
+      - v409-22.5.c
+      - v409-23.1.a
+    event_classes:
+      EVT-22-3-A:
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-FIREWALL]
+        detection_rules: [zokb-auth-failed-logons-bruteforce, zokb-auth-failed-logons-correlation]
+      EVT-22-3-B:
+        log_sources: [SRC-WINDOWS, SRC-LINUX]
+        detection_rules: [zokb-auth-failed-logons-correlation]
+      EVT-22-3-C:
+        log_sources: [SRC-WINDOWS, SRC-LINUX]
+        detection_rules: [zokb-auth-failed-logons-correlation]
+      EVT-22-3-D:
+        log_sources: [SRC-WINDOWS, SRC-LINUX]
+        detection_rules: [zokb-auth-failed-logons-bruteforce]
+      EVT-22-3-E:
+        log_sources: [SRC-WINDOWS, SRC-LINUX]
+        detection_rules: [zokb-host-removable-media-autorun]
+      EVT-22-3-F:
+        log_sources: [SRC-WINDOWS, SRC-LINUX]
+        detection_rules: [zokb-malware-antimalware-detection]
+      EVT-22-3-G:
+        log_sources: [SRC-LINUX, SRC-FIREWALL]
+        detection_rules: [zokb-net-perimeter-block]
+      EVT-22-3-H:
+        log_sources: [SRC-LINUX, SRC-FIREWALL]
+        detection_rules: [zokb-net-perimeter-block]
+      EVT-22-3-I:
+        log_sources: [SRC-WINDOWS, SRC-LINUX]
+        detection_rules: [zokb-host-removable-media-autorun]
+      EVT-22-3-J:
+        log_sources: [SRC-WINDOWS, SRC-LINUX]
+        detection_rules: [zokb-auth-failed-logons-correlation]
+  lower:
+    profile: lower
+    controls:
+      - v410-9.1.a
+      - v410-9.1.b
+      - v410-9.1.c
+      - v410-9.2.b
+      - v410-9.3
+    event_classes:
+      EVT-DET-PERIMETER:
+        log_sources: [SRC-FIREWALL]
+        detection_rules: [zokb-net-perimeter-block]
+      EVT-DET-MALWARE:
+        log_sources: [SRC-WINDOWS]
+        detection_rules: [zokb-malware-antimalware-detection]
+      EVT-DET-AUTORUN:
+        log_sources: [SRC-WINDOWS]
+        detection_rules: [zokb-host-removable-media-autorun]

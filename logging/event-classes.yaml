@@ -1,0 +1,122 @@
+version: 1
+event_classes:
+  - id: EVT-22-3-A
+    ref: v409-22.3.a
+    title: Přihlašování a odhlašování účtů včetně neúspěšných pokusů
+    ecs:
+      event.category: [authentication]
+      event.type: [start, end, info]
+    ocsf:
+      class_uid: 3002
+      class_name: Authentication
+    attack: [T1110, T1078]
+    outcomes: [success, failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
+  - id: EVT-22-3-B
+    ref: v409-22.3.b
+    title: Privilegované činnosti (provedení i neúspěšné pokusy)
+    ecs:
+      event.category: [iam]
+      event.type: [change, info]
+    ocsf:
+      class_uid: 3003
+      class_name: Account Change
+    attack: [T1068, T1078]
+    outcomes: [success, failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
+  - id: EVT-22-3-C
+    ref: v409-22.3.c
+    title: Manipulace s účty, oprávněními a právy
+    ecs:
+      event.category: [iam]
+      event.type: [creation, change, deletion]
+    ocsf:
+      class_uid: 3003
+      class_name: Account Change
+    attack: [T1098]
+    outcomes: [success, failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
+  - id: EVT-22-3-D
+    ref: v409-22.3.d
+    title: Neprovedení činnosti z důvodu nedostatku oprávnění
+    ecs:
+      event.category: [authentication]
+      event.type: [denied]
+    ocsf:
+      class_uid: 3002
+      class_name: Authentication
+    attack: [T1078]
+    outcomes: [failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
+  - id: EVT-22-3-E
+    ref: v409-22.3.e
+    title: Zahájení a ukončení činností technických aktiv
+    ecs:
+      event.category: [process, host]
+      event.type: [start, end]
+    ocsf:
+      class_uid: 1007
+      class_name: Process Activity
+    attack: [T1059]
+    outcomes: [success, failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
+  - id: EVT-22-3-F
+    ref: v409-22.3.f
+    title: Kritická a chybová hlášení technických aktiv
+    ecs:
+      event.category: [host]
+      event.type: [error, info]
+    ocsf:
+      class_uid: 1001
+      class_name: Application Activity
+    attack: [T1499]
+    outcomes: [success, failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
+  - id: EVT-22-3-G
+    ref: v409-22.3.g
+    title: Přístupy k záznamům událostí (včetně neúspěšných)
+    ecs:
+      event.category: [file]
+      event.type: [access, denied]
+    ocsf:
+      class_uid: 1005
+      class_name: File Activity
+    attack: [T1070]
+    outcomes: [success, failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
+  - id: EVT-22-3-H
+    ref: v409-22.3.h
+    title: Manipulace se záznamy událostí (včetně neúspěšných)
+    ecs:
+      event.category: [file]
+      event.type: [change, deletion]
+    ocsf:
+      class_uid: 1005
+      class_name: File Activity
+    attack: [T1070.001]
+    outcomes: [success, failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
+  - id: EVT-22-3-I
+    ref: v409-22.3.i
+    title: Změny nastavení nástrojů pro zaznamenávání událostí
+    ecs:
+      event.category: [configuration]
+      event.type: [change]
+    ocsf:
+      class_uid: 3004
+      class_name: Policy Activity
+    attack: [T1562]
+    outcomes: [success, failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
+  - id: EVT-22-3-J
+    ref: v409-22.3.j
+    title: Další uživatelské činnosti s dopadem na bezpečnost
+    ecs:
+      event.category: [user]
+      event.type: [info, change]
+    ocsf:
+      class_uid: 3001
+      class_name: User Activity
+    attack: [T1036]
+    outcomes: [success, failure]
+    required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]

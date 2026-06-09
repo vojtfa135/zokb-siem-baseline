@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "schema_version", "profile_id", "title", "source_catalogs", "control_selections",
+    "event_classes", "required_fields", "tailoring", "parameters", "detection_rules"
+  ],
+  "properties": {
+    "schema_version": { "type": "integer" },
+    "profile_id": { "type": "string" },
+    "title": { "type": "string" },
+    "source_catalogs": { "type": "array", "items": { "type": "string" } },
+    "control_selections": {
+      "type": "object",
+      "required": ["include"],
+      "properties": {
+        "include": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "event_classes": {
+      "type": "object",
+      "required": ["mandatory", "recommended"],
+      "properties": {
+        "mandatory": { "type": "array", "items": { "type": "string" } },
+        "recommended": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "required_fields": { "type": "array", "items": { "type": "string" } },
+    "tailoring": {
+      "type": "object",
+      "required": [
+        "field_stability_across_reip", "account_id_uniqueness", "centralized_collection",
+        "log_integrity_controls", "time_sync_ntp", "correlation_siem"
+      ],
+      "properties": {
+        "field_stability_across_reip": { "type": "boolean" },
+        "account_id_uniqueness": { "type": "boolean" },
+        "centralized_collection": { "type": "boolean" },
+        "log_integrity_controls": { "type": "boolean" },
+        "time_sync_ntp": { "type": "boolean" },
+        "correlation_siem": { "type": "boolean" }
+      }
+    },
+    "parameters": { "type": "object" },
+    "detection_rules": { "type": "array", "items": { "type": "string" } }
+  }
+}

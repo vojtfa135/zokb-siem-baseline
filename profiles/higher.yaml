@@ -1,0 +1,60 @@
+schema_version: 1
+profile_id: higher
+title: Vyšší povinnosti baseline (vyhláška 409/2025)
+source_catalogs:
+  - catalog/vyhlaska-409-2025.oscal.yaml
+  - catalog/detection-controls.yaml
+control_selections:
+  include:
+    - v409-21
+    - v409-22.1
+    - v409-22.2
+    - v409-22.3
+    - v409-22.4
+    - v409-22.5.a
+    - v409-22.5.b
+    - v409-22.5.c
+    - v409-22.6
+    - v409-23.1.a
+    - v409-23.1.b
+    - v409-23.1.c
+    - v409-23.2.a
+    - v409-23.2.b
+    - v409-23.2.c
+    - v409-23.3
+event_classes:
+  mandatory:
+    - EVT-22-3-A
+    - EVT-22-3-B
+    - EVT-22-3-C
+    - EVT-22-3-D
+    - EVT-22-3-E
+    - EVT-22-3-F
+    - EVT-22-3-G
+    - EVT-22-3-H
+    - EVT-22-3-I
+    - EVT-22-3-J
+  recommended:
+    - EVT-DET-PERIMETER
+    - EVT-DET-MALWARE
+    - EVT-DET-AUTORUN
+required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F
+tailoring:
+  field_stability_across_reip: true
+  account_id_uniqueness: true
+  centralized_collection: true
+  log_integrity_controls: true
+  time_sync_ntp: true
+  correlation_siem: true
+parameters:
+  retention_months: 18
+  retention_justification_required: true
+detection_rules:
+  - zokb-auth-failed-logons-bruteforce
+  - zokb-auth-failed-logons-correlation

@@ -1,0 +1,37 @@
+title: Perimeter blocked undesirable communication
+id: a0837619-f53c-4ac5-85de-e95a07495ede
+status: experimental
+description: Detects denied network communication on perimeter controls.
+author: zokb-siem-baseline
+date: 2026-06-09
+logsource:
+  product: any
+  category: network
+detection:
+  selection:
+    event.category: network
+    event.type|contains: denied
+  condition: selection
+fields:
+  - '@timestamp'
+  - event.timezone
+  - event.category
+  - event.type
+  - event.action
+  - host.id
+  - user.id
+  - source.ip
+  - event.outcome
+falsepositives:
+  - Expected policy-denied traffic
+level: medium
+tags:
+  - zokb.v410.par9.1.a
+  - zokb.v410.par9.2.b
+  - attack.t1562.004
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-F

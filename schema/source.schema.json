@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["id", "title", "transport", "must_emit_event_classes", "must_emit_fields", "note"],
+  "properties": {
+    "id": { "type": "string" },
+    "title": { "type": "string" },
+    "transport": {
+      "type": "object",
+      "required": ["protocol", "format"],
+      "properties": {
+        "protocol": { "type": "string" },
+        "format": { "type": "string" }
+      }
+    },
+    "must_emit_event_classes": { "type": "array", "items": { "type": "string" } },
+    "must_emit_fields": { "type": "array", "items": { "type": "string" } },
+    "note": { "type": "string" }
+  }
+}
