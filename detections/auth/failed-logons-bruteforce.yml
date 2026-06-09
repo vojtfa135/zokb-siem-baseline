@@ -1,0 +1,42 @@
+title: Repeated failed logons from same source to account
+id: 4c0b0d3d-29e5-4340-8a19-fde7d7c0d486
+status: experimental
+description: Detects suspicious repeated login failures indicating brute-force attempts.
+references:
+  - https://attack.mitre.org/techniques/T1110/
+author: zokb-siem-baseline
+date: 2026-06-09
+logsource:
+  product: any
+  category: authentication
+detection:
+  selection:
+    event.category: authentication
+    event.action|contains: logon
+    event.outcome: failure
+  condition: selection
+fields:
+  - '@timestamp'
+  - event.timezone
+  - event.category
+  - event.type
+  - event.action
+  - host.id
+  - user.id
+  - source.device.id
+  - source.ip
+  - event.outcome
+falsepositives:
+  - User typing mistakes
+level: medium
+tags:
+  - zokb.v409.par22.3.a
+  - zokb.v409.par22.4
+  - attack.t1110
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["version", "fields"],
+  "properties": {
+    "version": { "type": "integer" },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "ref", "title", "ecs", "constraint"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^FLD-[A-F]$" },
+          "ref": { "type": "string" },
+          "title": { "type": "string" },
+          "ecs": { "type": "array", "items": { "type": "string" } },
+          "constraint": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+id: SRC-FIREWALL
+title: Perimeter firewall / IDS
+auth_scope: appliance
+transport:
+  protocol: syslog-tls
+  format: cef
+must_emit_event_classes:
+  - EVT-22-3-A
+  - EVT-22-3-G
+  - EVT-22-3-H
+  - EVT-DET-PERIMETER
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-F
+note: For lower regime FLD-E is optional; include source.device.id when supported.

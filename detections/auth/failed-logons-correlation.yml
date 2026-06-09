@@ -1,0 +1,37 @@
+title: Correlated brute-force logons across assets
+id: 1f96814e-9681-45f6-ad1f-24763771e3d5
+status: experimental
+description: Correlates repeated failed logons by user and source over a time window.
+author: zokb-siem-baseline
+date: 2026-06-09
+correlation:
+  type: event_count
+  rules:
+    - 4c0b0d3d-29e5-4340-8a19-fde7d7c0d486
+  group-by:
+    - user.id
+    - source.device.id
+    - host.id
+  timespan: 10m
+  condition:
+    gte: 10
+fields:
+  - '@timestamp'
+  - event.timezone
+  - event.action
+  - host.id
+  - user.id
+  - source.device.id
+  - event.outcome
+level: high
+tags:
+  - zokb.v409.par23
+  - zokb.v409.par23.1.a
+  - attack.t1110
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F

@@ -1,0 +1,46 @@
+version: 1
+fields:
+  - id: FLD-A
+    ref: v409-22.4.a; v410-9.2.b.1
+    title: Datum a čas včetně časového pásma
+    ecs:
+      - '@timestamp'
+      - event.timezone
+    constraint: Timestamp MUST include timezone; in higher regime it MUST be synchronized via continuous time sync (v409-22.6).
+  - id: FLD-B
+    ref: v409-22.4.b; v410-9.2.b.2
+    title: Typ činnosti
+    ecs:
+      - event.category
+      - event.type
+      - event.action
+    constraint: Activity type must classify action consistently for correlation and audit.
+  - id: FLD-C
+    ref: v409-22.4.c; v410-9.2.b.3
+    title: Identifikace technického aktiva
+    ecs:
+      - host.id
+      - host.name
+      - observer.name
+    constraint: Higher regime requires identifier stable across network identity changes (not only IP); lower regime requires identifiable technical asset.
+  - id: FLD-D
+    ref: v409-22.4.d; v410-9.2.b.3
+    title: Identifikace účtu
+    ecs:
+      - user.id
+      - user.name
+    constraint: Higher regime requires unique account identifier and stability across network re-identification; lower regime requires account identification.
+  - id: FLD-E
+    ref: v409-22.4.e
+    title: Identifikace zařízení původce
+    ecs:
+      - source.device.id
+      - source.ip
+      - source.mac
+    constraint: Required only in higher regime; identifier should remain stable across IP changes where feasible.
+  - id: FLD-F
+    ref: v409-22.4.f; v410-9.2.b.4
+    title: Úspěšnost nebo neúspěšnost činnosti
+    ecs:
+      - event.outcome
+    constraint: Must encode success/failure outcome.

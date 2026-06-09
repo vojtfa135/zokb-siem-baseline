@@ -1,0 +1,24 @@
+id: SRC-LINUX
+title: Linux servers
+transport:
+  protocol: syslog-tls
+  format: rfc5424
+must_emit_event_classes:
+  - EVT-22-3-A
+  - EVT-22-3-B
+  - EVT-22-3-C
+  - EVT-22-3-D
+  - EVT-22-3-E
+  - EVT-22-3-F
+  - EVT-22-3-G
+  - EVT-22-3-H
+  - EVT-22-3-I
+  - EVT-22-3-J
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F
+note: Journald/auditd forwarding should preserve event.outcome and stable host identity.

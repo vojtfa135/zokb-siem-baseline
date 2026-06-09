@@ -1,0 +1,197 @@
+catalog:
+  uuid: 1d4ccd3f-0866-49aa-b34f-700286f44dea
+  metadata:
+    title: Vyhláška č. 410/2025 Sb. - katalog požadavků pro detekci a zaznamenávání událostí
+    last-modified: '2026-06-09T09:22:07Z'
+    version: '1.0.0'
+    oscal-version: 1.1.2
+    roles:
+      - id: regulator
+        title: Regulator
+    parties:
+      - uuid: f32f95f5-2931-4dd5-b3d0-99a9af3f233f
+        type: organization
+        name: Národní úřad pro kybernetickou a informační bezpečnost (NÚKIB)
+    responsible-parties:
+      - role-id: regulator
+        party-uuids:
+          - f32f95f5-2931-4dd5-b3d0-99a9af3f233f
+  groups:
+    - id: v410-sec9
+      title: § 9 Detekce a zaznamenávání kybernetických bezpečnostních událostí
+      controls:
+        - id: v410-9.1.a
+          title: §9(1)(a) Ověření přenášených dat na perimetru
+          props:
+            - name: regime
+              value: lower
+            - name: regulation
+              value: vyhlaska-410-2025
+            - name: paragraph
+              value: 9(1)(a)
+          links:
+            - rel: related
+              href: '#v409-21'
+          parts:
+            - id: v410-9.1.a-statement
+              name: statement
+              prose: "Povinná osoba při detekci kybernetických bezpečnostních událostí zajistí ověření a kontrolu přenášených dat na perimetru komunikační sítě, včetně blokování nežádoucí komunikace."
+            - id: v410-9.1.a-note
+              name: note
+              prose: "Summary: Perimeter monitoring and blocking is mandatory in the lower-obligation regime."
+        - id: v410-9.1.b
+          title: §9(1)(b) Nepřetržitá ochrana před škodlivým kódem
+          props:
+            - name: regime
+              value: lower
+            - name: regulation
+              value: vyhlaska-410-2025
+            - name: paragraph
+              value: 9(1)(b)
+          links:
+            - rel: related
+              href: '#v409-21'
+          parts:
+            - id: v410-9.1.b-statement
+              name: statement
+              prose: "Povinná osoba při detekci kybernetických bezpečnostních událostí zajistí použití nástroje pro nepřetržitou a automatickou ochranu před škodlivým kódem na technických aktivech, zejména na 1. serverech a 2. koncových stanicích."
+            - id: v410-9.1.b-note
+              name: note
+              prose: "Summary: Continuous antimalware tooling is required for servers and endpoints."
+        - id: v410-9.1.c
+          title: §9(1)(c) Řízení automatického spouštění obsahu
+          props:
+            - name: regime
+              value: lower
+            - name: regulation
+              value: vyhlaska-410-2025
+            - name: paragraph
+              value: 9(1)(c)
+          links:
+            - rel: related
+              href: '#v409-21'
+          parts:
+            - id: v410-9.1.c-statement
+              name: statement
+              prose: "Povinná osoba při detekci kybernetických bezpečnostních událostí zajistí řízení automatického spouštění obsahu, zejména u vyměnitelných zařízení a datových nosičů."
+            - id: v410-9.1.c-note
+              name: note
+              prose: "Summary: Autorun behavior from removable media must be controlled."
+        - id: v410-9.1.d
+          title: §9(1)(d) Nepřetržité informace a včasné varování
+          props:
+            - name: regime
+              value: lower
+            - name: regulation
+              value: vyhlaska-410-2025
+            - name: paragraph
+              value: 9(1)(d)
+          links:
+            - rel: related
+              href: '#v409-23.1.b'
+          parts:
+            - id: v410-9.1.d-statement
+              name: statement
+              prose: "Povinná osoba při detekci kybernetických bezpečnostních událostí zajistí nepřetržité poskytování informací o relevantních detekovaných kybernetických bezpečnostních událostech a včasné varování relevantních osob."
+            - id: v410-9.1.d-note
+              name: note
+              prose: "Summary: Continuous information flow and warning obligations exist also in lower regime."
+        - id: v410-9.1.e
+          title: §9(1)(e) Aktualizace detekčních nástrojů a pravidel
+          props:
+            - name: regime
+              value: lower
+            - name: regulation
+              value: vyhlaska-410-2025
+            - name: paragraph
+              value: 9(1)(e)
+          links:
+            - rel: related
+              href: '#v409-23.2.b'
+          parts:
+            - id: v410-9.1.e-statement
+              name: statement
+              prose: "Povinná osoba při detekci kybernetických bezpečnostních událostí zajistí pravidelnou a bezodkladnou aktualizaci nástrojů pro nepřetržitou a automatickou ochranu před škodlivým kódem a dalších detekčních nástrojů a jejich pravidel."
+            - id: v410-9.1.e-note
+              name: note
+              prose: "Summary: Detection tooling and rules must be kept up to date."
+        - id: v410-9.2.a
+          title: §9(2)(a) Rozsah zaznamenávaných událostí pro detekci
+          props:
+            - name: regime
+              value: lower
+            - name: regulation
+              value: vyhlaska-410-2025
+            - name: paragraph
+              value: 9(2)(a)
+          links:
+            - rel: related
+              href: '#v409-22.2'
+          parts:
+            - id: v410-9.2.a-statement
+              name: statement
+              prose: "Povinná osoba za účelem detekce kybernetických bezpečnostních událostí zaznamenává bezpečnostní a relevantní provozní události detekované podle odstavce 1 a bezpečnostní a relevantní provozní události technických aktiv na základě svých bezpečnostních potřeb."
+            - id: v410-9.2.a-note
+              name: note
+              prose: "Summary: Logging scope in lower regime combines detected and security-needs-based asset events."
+        - id: v410-9.2.b
+          title: §9(2)(b) Povinné informace o události
+          props:
+            - name: regime
+              value: lower
+            - name: regulation
+              value: vyhlaska-410-2025
+            - name: paragraph
+              value: 9(2)(b)
+          links:
+            - rel: related
+              href: '#v409-22.4'
+          parts:
+            - id: v410-9.2.b.1
+              name: item
+              prose: "Povinná osoba zaznamenává datum a čas, včetně specifikace časového pásma."
+            - id: v410-9.2.b.2
+              name: item
+              prose: "Povinná osoba zaznamenává typ činnosti."
+            - id: v410-9.2.b.3
+              name: item
+              prose: "Povinná osoba zaznamenává jednoznačnou identifikaci technického aktiva a identifikaci účtu původce."
+            - id: v410-9.2.b.4
+              name: item
+              prose: "Povinná osoba zaznamenává úspěšnost nebo neúspěšnost činnosti."
+            - id: v410-9.2.b-note
+              name: note
+              prose: "Summary: Lower regime requires four field families; originating device ID is not explicitly mandated."
+        - id: v410-9.3
+          title: §9(3) Doba uchovávání záznamů
+          props:
+            - name: regime
+              value: lower
+            - name: regulation
+              value: vyhlaska-410-2025
+            - name: paragraph
+              value: 9(3)
+          params:
+            - id: retention-months
+              label: Retenční doba dle bezpečnostních potřeb
+          parts:
+            - id: v410-9.3-statement
+              name: statement
+              prose: "Povinná osoba uchovává záznamy bezpečnostních a relevantních provozních událostí po dobu, kterou si stanoví na základě svých bezpečnostních potřeb."
+            - id: v410-9.3-note
+              name: note
+              prose: "Summary: Retention is self-determined and should be documented/justified."
+  back-matter:
+    resources:
+      - uuid: 51dfd2ad-0fd2-4df5-802a-ecdc671952dc
+        title: Vyhláška č. 410/2025 Sb. (e-Sbírka)
+        rlinks:
+          - href: https://www.e-sbirka.cz/sb/2025/410
+      - uuid: 3857b038-218a-4df5-b97a-f4b57df51619
+        title: Vyhláška č. 410/2025 Sb. (Zákony pro lidi)
+        rlinks:
+          - href: https://www.zakonyprolidi.cz/cs/2025-410
+      - uuid: eee79885-874e-4f79-b6ba-366e6cbf296f
+        title: Zákon č. 264/2025 Sb.
+        rlinks:
+          - href: https://www.zakonyprolidi.cz/cs/2025-264

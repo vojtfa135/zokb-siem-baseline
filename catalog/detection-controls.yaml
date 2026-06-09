@@ -1,0 +1,46 @@
+version: 1
+controls:
+  - id: CTL-DETECT-PERIMETER
+    ref: v410-9.1.a
+    title: Perimeter data verification and blocking
+    note: Shared control for perimeter validation and undesirable communication blocking.
+  - id: CTL-DETECT-MALWARE
+    ref: v410-9.1.b
+    title: Continuous automated antimalware protection
+    note: Maps endpoint/server malware detection obligations.
+  - id: CTL-DETECT-AUTORUN
+    ref: v410-9.1.c
+    title: Autorun control on removable media
+    note: Shared control for automatic execution safeguards.
+  - id: CTL-EVT-LOGGING-SCOPE
+    ref: v409-22.1
+    title: Event logging scope management
+    note: Scope selection and periodic updates for technical assets.
+  - id: CTL-EVT-LOGGING-CLASSES
+    ref: v409-22.3
+    title: Enumerated event classes
+    note: Shared event taxonomy from §22(3) a–j.
+  - id: CTL-EVT-REQUIRED-FIELDS
+    ref: v409-22.4
+    title: Required event fields
+    note: Shared FLD-A..FLD-F model, tailored by regime profile.
+  - id: CTL-COLLECT-INTEGRITY
+    ref: v409-22.5.a
+    title: Log confidentiality and integrity
+    note: Mandatory in higher regime; recommended in lower regime.
+  - id: CTL-CENTRAL-COLLECTION
+    ref: v409-22.5.b
+    title: Centralized log collection
+    note: Mandatory in higher regime; recommended in lower regime.
+  - id: CTL-RETENTION
+    ref: v409-22.5.c
+    title: Log retention policy
+    note: Parameterized retention by regime profile.
+  - id: CTL-TIME-SYNC
+    ref: v409-22.6
+    title: Continuous time synchronization
+    note: NTP-aligned time consistency.
+  - id: CTL-SIEM-CORRELATION
+    ref: v409-23.1.a
+    title: Continuous evaluation and correlation
+    note: Required in higher regime, recommended for lower regime.

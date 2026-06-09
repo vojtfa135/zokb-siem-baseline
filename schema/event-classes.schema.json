@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["version", "event_classes"],
+  "properties": {
+    "version": { "type": "integer" },
+    "event_classes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "ref", "title", "ecs", "ocsf", "outcomes", "required_fields"],
+        "properties": {
+          "id": { "type": "string" },
+          "ref": { "type": "string" },
+          "title": { "type": "string" },
+          "ecs": { "type": "object" },
+          "ocsf": {
+            "type": "object",
+            "required": ["class_uid", "class_name"],
+            "properties": {
+              "class_uid": { "type": ["integer", "string"] },
+              "class_name": { "type": "string" }
+            }
+          },
+          "attack": { "type": "array", "items": { "type": "string" } },
+          "outcomes": { "type": "array", "items": { "type": "string" } },
+          "required_fields": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}
