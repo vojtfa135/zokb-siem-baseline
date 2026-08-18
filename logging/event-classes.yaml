@@ -7,8 +7,8 @@ event_classes:
       event.category: [authentication]
       event.type: [start, end, info]
     ocsf:
-      class_uid: 3002
-      class_name: Authentication
+      - class_uid: 3002
+        class_name: Authentication
     attack: [T1110, T1078]
     outcomes: [success, failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
@@ -16,12 +16,12 @@ event_classes:
     ref: v409-22.3.b
     title: Privilegované činnosti (provedení i neúspěšné pokusy)
     ecs:
-      event.category: [iam]
-      event.type: [change, info]
+      event.category: [iam, process]
+      event.type: [change, info, admin, start, end]
     ocsf:
-      class_uid: 3003
-      class_name: Account Change
-    attack: [T1068, T1078]
+      - class_uid: 3005
+        class_name: User Access Management
+    attack: [T1548, T1078]
     outcomes: [success, failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
   - id: EVT-22-3-C
@@ -31,21 +31,21 @@ event_classes:
       event.category: [iam]
       event.type: [creation, change, deletion]
     ocsf:
-      class_uid: 3003
-      class_name: Account Change
-    attack: [T1098]
+      - class_uid: 3001
+        class_name: Account Change
+    attack: [T1098, T1136]
     outcomes: [success, failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
   - id: EVT-22-3-D
     ref: v409-22.3.d
     title: Neprovedení činnosti z důvodu nedostatku oprávnění
     ecs:
-      event.category: [authentication]
+      event.category: [authentication, iam, network]
       event.type: [denied]
     ocsf:
-      class_uid: 3002
-      class_name: Authentication
-    attack: [T1078]
+      - class_uid: 3002
+        class_name: Authentication
+    attack: [T1078, T1548]
     outcomes: [failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
   - id: EVT-22-3-E
@@ -55,21 +55,25 @@ event_classes:
       event.category: [process, host]
       event.type: [start, end]
     ocsf:
-      class_uid: 1007
-      class_name: Process Activity
-    attack: [T1059]
+      - class_uid: 1007
+        class_name: Process Activity
+      - class_uid: 6002
+        class_name: Application Lifecycle
+    attack: [T1543, T1569]
     outcomes: [success, failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
   - id: EVT-22-3-F
     ref: v409-22.3.f
     title: Kritická a chybová hlášení technických aktiv
     ecs:
-      event.category: [host]
-      event.type: [error, info]
+      # host+error is a documented ECS deviation: ECS pairs `error` only with
+      # database/web, but OS/hardware error reports have no conformant category.
+      event.category: [host, database, web]
+      event.type: [error]
     ocsf:
-      class_uid: 1001
-      class_name: Application Activity
-    attack: [T1499]
+      - class_uid: 6008
+        class_name: Application Error
+    attack: [T1499, T1485]
     outcomes: [success, failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
   - id: EVT-22-3-G
@@ -79,9 +83,9 @@ event_classes:
       event.category: [file]
       event.type: [access, denied]
     ocsf:
-      class_uid: 1005
-      class_name: File Activity
-    attack: [T1070]
+      - class_uid: 1008
+        class_name: Event Log Activity
+    attack: [T1654, T1005]
     outcomes: [success, failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
   - id: EVT-22-3-H
@@ -91,9 +95,9 @@ event_classes:
       event.category: [file]
       event.type: [change, deletion]
     ocsf:
-      class_uid: 1005
-      class_name: File Activity
-    attack: [T1070.001]
+      - class_uid: 1008
+        class_name: Event Log Activity
+    attack: [T1070]
     outcomes: [success, failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
   - id: EVT-22-3-I
@@ -103,8 +107,8 @@ event_classes:
       event.category: [configuration]
       event.type: [change]
     ocsf:
-      class_uid: 3004
-      class_name: Policy Activity
+      - class_uid: 1008
+        class_name: Event Log Activity
     attack: [T1562]
     outcomes: [success, failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]
@@ -112,11 +116,16 @@ event_classes:
     ref: v409-22.3.j
     title: Další uživatelské činnosti s dopadem na bezpečnost
     ecs:
-      event.category: [user]
-      event.type: [info, change]
+      # Documented ECS deviation (same pattern as EVT-22-3-F): the legal
+      # title covers ANY other security-relevant user activity, which
+      # includes file share operations (upload/download/deletion on
+      # SRC-FILE-SERVER). ECS's own iam/session categories don't express
+      # file operations, so `file` + access/deletion types are added here
+      # rather than misusing EVT-22-3-G/H (which are log-record specific).
+      event.category: [iam, session, file]
+      event.type: [info, change, start, end, access, deletion]
     ocsf:
-      class_uid: 3001
-      class_name: User Activity
-    attack: [T1036]
+      - class_uid: 0
+        class_name: Base Event
     outcomes: [success, failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-E, FLD-F]

@@ -1,8 +1,16 @@
 id: SRC-WINDOWS
 title: Windows servers and workstations
+deployment_scope: ['servers', 'endpoints']
 transport:
   protocol: winrm
   format: windows-event-log
+  failure_detection:
+    mechanism: heartbeat
+    note: >-
+      WEF subscription and agent heartbeat monitoring: a missing heartbeat or
+      eventflow gap triggers an alert within 15 minutes; after remediation,
+      successful event delivery within the next scoring window confirms auto-
+      recovery (v409-22.6 alerting-duty interpretation).
 must_emit_event_classes:
   - EVT-22-3-A
   - EVT-22-3-B
@@ -10,6 +18,8 @@ must_emit_event_classes:
   - EVT-22-3-D
   - EVT-22-3-E
   - EVT-22-3-F
+  - EVT-22-3-G
+  - EVT-22-3-H
   - EVT-22-3-I
   - EVT-22-3-J
   - EVT-DET-MALWARE
@@ -21,4 +31,12 @@ must_emit_fields:
   - FLD-D
   - FLD-E
   - FLD-F
-note: Prefer host.id and user.id as stable identifiers; include source.device.id where available.
+note: >-
+  Prefer host.id and user.id as stable identifiers; include device.id where
+  available. Subject fields: actor in SubjectUserSid (FLD-D), target account
+  in TargetUserSid → user.target.* (see FLD-D constraint); originating
+  client from IpAddress (FLD-E). SIEM normalization must map each event ID's
+  audit keyword (Success/Failure) or status code (Status/SubStatus in 4625,
+  FailureCode in Kerberos events) to event.outcome (FLD-F). Sysmon may
+  augment (process/network detail) but never replaces Security-log records
+  for mandatory classes.

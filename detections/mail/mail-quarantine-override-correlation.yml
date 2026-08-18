@@ -1,0 +1,45 @@
+title: Repeated mail quarantine overrides by the same administrator
+id: 3f4a5b6c-7d8e-49f0-a1b2-c3d4e5f6a7b8
+zokb_rule_id: zokb-mail-quarantine-override-correlation
+status: experimental
+description: >-
+  Correlates repeated quarantine/block-list overrides by the same acting
+  account within 24 hours. Individually routine, but a pattern suggests
+  either a compromised admin account systematically releasing malicious
+  mail, or an insider bypassing mail-security controls -- serves the
+  false-positive-reduction and grouping duties of v409-23.1.a/23.2.a.
+references:
+  - https://attack.mitre.org/techniques/T1566/
+  - https://attack.mitre.org/techniques/T1078/
+author: zokb-siem-baseline
+date: 2026-08-05
+modified: 2026-08-05
+correlation:
+  type: event_count
+  rules:
+    - 8a1e2c3d-4f5b-4a6d-9e7f-1b2c3d4e5f6a
+  group-by:
+    - user.id
+  timespan: 24h
+  condition:
+    gte: 5
+fields:
+  - '@timestamp'
+  - event.action
+  - user.id
+  - event.outcome
+falsepositives:
+  - A helpdesk account handling a genuine batch of false-positive releases
+level: medium
+tags:
+  - zokb.v409.par22.3.b
+  - zokb.v409.par23.1.a
+  - zokb.v409.par23.2.a
+  - attack.t1566
+  - attack.t1078
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-F

@@ -9,35 +9,47 @@ coverage:
       - v409-23.1.a
     event_classes:
       EVT-22-3-A:
-        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-FIREWALL]
-        detection_rules: [zokb-auth-failed-logons-bruteforce, zokb-auth-failed-logons-correlation]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-FIREWALL, SRC-AD-DC, SRC-NETDEV, SRC-VPN, SRC-VIRTUALIZATION, SRC-CLOUD-IDENTITY, SRC-CONTAINERS, SRC-NAC, SRC-IDENTITY-DIRECTORY, SRC-MAIL-GATEWAY-ONPREM, SRC-WEB-PROXY, SRC-FILE-SERVER]
+        detection_rules: [zokb-auth-failed-logons-bruteforce, zokb-auth-failed-logons-correlation, zokb-auth-successful-logon, zokb-auth-post-bruteforce-success, zokb-auth-multi-source-logon]
       EVT-22-3-B:
-        log_sources: [SRC-WINDOWS, SRC-LINUX]
-        detection_rules: [zokb-auth-failed-logons-correlation]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-FIREWALL, SRC-AD-DC, SRC-NETDEV, SRC-VIRTUALIZATION, SRC-CLOUD-IDENTITY, SRC-CLOUD-IAAS, SRC-CONTAINERS, SRC-IDENTITY-DIRECTORY, SRC-MAIL-GATEWAY-CLOUD, SRC-MAIL-GATEWAY-ONPREM]
+        detection_rules: [zokb-iam-privileged-activity, zokb-iam-privileged-group-membership-change, zokb-iam-persistence-chain-correlation, zokb-mail-quarantine-override, zokb-mail-quarantine-override-correlation]
       EVT-22-3-C:
-        log_sources: [SRC-WINDOWS, SRC-LINUX]
-        detection_rules: [zokb-auth-failed-logons-correlation]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-AD-DC, SRC-VIRTUALIZATION, SRC-CLOUD-IDENTITY, SRC-CLOUD-IAAS, SRC-CONTAINERS, SRC-IDENTITY-DIRECTORY, SRC-MAIL-GATEWAY-CLOUD, SRC-MAIL-GATEWAY-ONPREM]
+        detection_rules: [zokb-iam-account-manipulation, zokb-iam-credential-reset-non-owner, zokb-iam-persistence-chain-correlation]
       EVT-22-3-D:
-        log_sources: [SRC-WINDOWS, SRC-LINUX]
-        detection_rules: [zokb-auth-failed-logons-bruteforce]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-FIREWALL, SRC-AD-DC, SRC-VPN, SRC-CLOUD-IDENTITY, SRC-NAC, SRC-IDENTITY-DIRECTORY, SRC-WEB-PROXY, SRC-FILE-SERVER]
+        detection_rules: [zokb-auth-failed-logons-bruteforce, zokb-net-proxy-blocked-request]
       EVT-22-3-E:
-        log_sources: [SRC-WINDOWS, SRC-LINUX]
-        detection_rules: [zokb-host-removable-media-autorun]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-EDR, SRC-VIRTUALIZATION, SRC-CLOUD-IAAS, SRC-CONTAINERS]
+        detection_rules: [zokb-host-suspicious-service-process]
       EVT-22-3-F:
-        log_sources: [SRC-WINDOWS, SRC-LINUX]
-        detection_rules: [zokb-malware-antimalware-detection]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-FIREWALL, SRC-EDR, SRC-NETDEV, SRC-VIRTUALIZATION]
+        detection_rules: [zokb-host-system-error-critical, zokb-host-error-storm-correlation]
       EVT-22-3-G:
-        log_sources: [SRC-LINUX, SRC-FIREWALL]
-        detection_rules: [zokb-net-perimeter-block]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-FIREWALL, SRC-VIRTUALIZATION, SRC-CLOUD-IAAS, SRC-CONTAINERS]
+        detection_rules: [zokb-audit-log-clearing-tampering]
       EVT-22-3-H:
-        log_sources: [SRC-LINUX, SRC-FIREWALL]
-        detection_rules: [zokb-net-perimeter-block]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-FIREWALL, SRC-AD-DC, SRC-VIRTUALIZATION, SRC-CLOUD-IAAS, SRC-CONTAINERS]
+        detection_rules: [zokb-audit-log-clearing-tampering]
       EVT-22-3-I:
-        log_sources: [SRC-WINDOWS, SRC-LINUX]
-        detection_rules: [zokb-host-removable-media-autorun]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-FIREWALL, SRC-EDR, SRC-AD-DC, SRC-NETDEV, SRC-VIRTUALIZATION, SRC-CLOUD-IDENTITY, SRC-CLOUD-IAAS, SRC-CONTAINERS, SRC-MAIL-GATEWAY-CLOUD, SRC-MAIL-GATEWAY-ONPREM, SRC-WEB-PROXY]
+        detection_rules: [zokb-audit-logging-config-change]
       EVT-22-3-J:
-        log_sources: [SRC-WINDOWS, SRC-LINUX]
-        detection_rules: [zokb-auth-failed-logons-correlation]
+        log_sources: [SRC-WINDOWS, SRC-LINUX, SRC-AD-DC, SRC-CLOUD-IDENTITY, SRC-IDENTITY-DIRECTORY, SRC-FILE-SERVER]
+        detection_rules: [zokb-cloud-oauth-consent-mailbox-rule, zokb-file-mass-access-or-deletion, zokb-file-mass-access-or-deletion-correlation]
+      # Recommended detection classes for the higher regime (see
+      # profiles/higher.yaml recommended list) — referenced here so the
+      # higher matrix is complete.
+      EVT-DET-PERIMETER:
+        log_sources: [SRC-FIREWALL, SRC-VPN, SRC-WAF, SRC-WEB-PROXY]
+        detection_rules: [zokb-net-perimeter-block, zokb-net-repeat-perimeter-denials, zokb-net-proxy-blocked-request, zokb-net-repeat-proxy-denials-correlation]
+      EVT-DET-MALWARE:
+        log_sources: [SRC-WINDOWS, SRC-EDR]
+        detection_rules: [zokb-malware-antimalware-detection]
+      EVT-DET-AUTORUN:
+        log_sources: [SRC-WINDOWS, SRC-EDR]
+        detection_rules: [zokb-host-removable-media-autorun]
   lower:
     profile: lower
     controls:
@@ -48,11 +60,11 @@ coverage:
       - v410-9.3
     event_classes:
       EVT-DET-PERIMETER:
-        log_sources: [SRC-FIREWALL]
-        detection_rules: [zokb-net-perimeter-block]
+        log_sources: [SRC-FIREWALL, SRC-VPN, SRC-WAF, SRC-WEB-PROXY]
+        detection_rules: [zokb-net-perimeter-block, zokb-net-repeat-perimeter-denials, zokb-net-proxy-blocked-request, zokb-net-repeat-proxy-denials-correlation]
       EVT-DET-MALWARE:
-        log_sources: [SRC-WINDOWS]
+        log_sources: [SRC-WINDOWS, SRC-EDR]
         detection_rules: [zokb-malware-antimalware-detection]
       EVT-DET-AUTORUN:
-        log_sources: [SRC-WINDOWS]
+        log_sources: [SRC-WINDOWS, SRC-EDR]
         detection_rules: [zokb-host-removable-media-autorun]

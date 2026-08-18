@@ -1,0 +1,37 @@
+id: SRC-CLOUD-IDENTITY
+title: Cloud identity provider and SaaS audit (Entra ID, M365, Google Workspace)
+transport:
+  protocol: https-api
+  format: vendor-json
+  failure_detection:
+    mechanism: connect-source-monitoring
+    note: >-
+      Loss of flow is detected by monitoring the API-pull job itself: a
+      failed poll, an authentication/authorization error, or a growing gap
+      between now and the last successfully ingested event timestamp
+      triggers an alert within 15 minutes; successful ingestion within the
+      next scoring window after remediation confirms auto-recovery
+      (v409-22.6 alerting-duty interpretation).
+must_emit_event_classes:
+  - EVT-22-3-A
+  - EVT-22-3-B
+  - EVT-22-3-C
+  - EVT-22-3-D
+  - EVT-22-3-I
+  - EVT-22-3-J
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F
+note: >-
+  ACSC priority #8 (identity/SaaS). Centralized cloud IdP audit logs (Microsoft
+  Entra ID sign-in and directory audit, M365 audit log, Google Workspace
+  Admin/Activity). Authentication and authorization (EVT-22-3-A/D), privileged
+  role assignment and admin actions (EVT-22-3-B), account/group/credential
+  changes (EVT-22-3-C), conditional-access and logging-config modifications
+  (EVT-22-3-I), and auxiliary user activity such as mailbox-rule and delegated
+  permissions changes (EVT-22-3-J). Preserve the cloud tenant and object IDs
+  as stable identifiers; include the originating client IP/device (FLD-E).

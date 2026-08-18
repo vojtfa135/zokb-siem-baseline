@@ -41,10 +41,17 @@ jobs:
               'logging/required-fields.yaml': 'schema/required-fields.schema.json',
               'profiles/higher.yaml': 'schema/profile.schema.json',
               'profiles/lower.yaml': 'schema/profile.schema.json',
-              'logging/sources/windows.yaml': 'schema/source.schema.json',
-              'logging/sources/linux.yaml': 'schema/source.schema.json',
-              'logging/sources/firewall.yaml': 'schema/source.schema.json',
           }
+          # Discover source files by glob so new log sources are validated
+          # automatically (2-file rule, AGENTS.md).
+          for src in sorted((root / 'logging' / 'sources').glob('*.yaml')):
+              schema_map[str(src)] = 'schema/source.schema.json'
+          # Technology mapping layer is optional (logging/technologies/ may
+          # not exist or be empty); validate any files that are present.
+          tech_dir = root / 'logging' / 'technologies'
+          if tech_dir.is_dir():
+              for tech in sorted(tech_dir.glob('*.yaml')):
+                  schema_map[str(tech)] = 'schema/technology.schema.json'
 
           for data_file, schema_file in schema_map.items():
               data = yaml.safe_load((root / data_file).read_text(encoding='utf-8'))
@@ -57,6 +64,13 @@ jobs:
         run: |
           python tools/coverage_check.py
 
+      - name: Detection rule staleness check (advisory for now)
+        # Warn-mode: reports rules past the 365-day review window without
+        # failing the build. Switch to `--fail` after the first full review
+        # cycle proves the process (see docs/detection-lifecycle.md).
+        run: |
+          python tools/staleness_check.py
+
       - name: Install Sigma tooling (best effort)
         continue-on-error: true
         run: |
@@ -65,7 +79,9 @@ jobs:
       - name: Sigma lint and conversion (best effort)
         continue-on-error: true
         run: |
-          sigma check detections/auth/failed-logons-bruteforce.yml
-          sigma check detections/auth/failed-logons-correlation.yml
+          # Lint every rule file, including correlations.
+          find detections -name '*.yml' -print0 | while IFS= read -r -d '' f; do
+            sigma check "$f"
+          done
           sigma convert -t splunk detections/auth/failed-logons-bruteforce.yml > /tmp/splunk-query.txt
           sigma convert -t sentinel detections/network/perimeter-block.yml > /tmp/sentinel-query.txt

@@ -81,7 +81,18 @@ as an **orphan** and fails CI.
         detection_rules: [zokb-auth-failed-logons-bruteforce, zokb-auth-failed-logons-correlation]
 ```
 
-### Step 3 (optional) — Add a detection if the source unlocks new coverage
+### Step 3 (optional) — Map to concrete vendor telemetry
+
+You may add a third file under `logging/technologies/<vendor>-<product>.yaml`
+mapping the source's event classes to the concrete signals a specific
+product or your own deployment emits (Windows Event IDs, syslog mnemonics,
+cloud event names, ...). This layer is **entirely optional and
+non-normative** — CI hard-fails an *invalid* technology file (unknown ids,
+convention violations) but never fails on a missing one. See
+`logging/technologies/README.md` for the file shape and naming conventions
+before adding one.
+
+### Step 4 (optional) — Add a detection if the source unlocks new coverage
 
 If the source merely strengthens existing event classes, you are done. If it
 lets you detect something not yet covered (e.g. impossible-travel sign-ins from
@@ -107,12 +118,30 @@ The YAML snippet above is a complete worked IDP example kept here for reference.
 
 1. Add a Sigma rule under `detections/<category>/<name>.yml` using ECS-style
    fields.
-2. Include a `fields:` list guaranteeing the regime's required fields
-   (§22(4) / §9(2)) are present.
-3. Tag it with the legal namespace, e.g. `zokb.v409.par22.3.a`,
+2. Declare a stable `zokb_rule_id: zokb-<category>-<name>` (kebab-case) and a
+   `modified:` date — CI requires both, and `zokb_rule_id` is the id used in
+   coverage/profiles references. Correlation rules reference their legs by
+   the standard Sigma `id` (UUID).
+3. Include a `fields:` list guaranteeing the regime's required fields
+   (§22(4) / §9(2)) are present, and a `falsepositives:` list (§23(2)(a)).
+4. Tag it with the legal namespace, e.g. `zokb.v409.par22.3.a`,
    `zokb.v410.par9.1.b`, plus relevant `attack.*` tags.
-4. Reference its id from `mappings/coverage.yaml`.
-5. **Lower-regime rules must not require `FLD-E`** (CI enforces this).
+5. Reference its `zokb_rule_id` from `mappings/coverage.yaml`. CI hard-fails
+   on unresolvable references and on rules referenced nowhere (correlation
+   legs count as referenced).
+6. **Lower-regime rules must not require `FLD-E`** (CI enforces this).
+7. Review cadence: refresh `modified:` whenever a rule is substantively
+   reviewed or edited; `tools/staleness_check.py` flags rules past the
+   365-day window (see `docs/detection-lifecycle.md`).
+
+## Representing process/evaluation controls
+
+Obligations from vyhl. 409/2025 §23 and vyhl. 410/2025 §9(1)(d)(e) that are
+operational rather than Sigma-shaped are tracked in
+`mappings/controls-coverage.yaml` (control id → status, owner, artifacts).
+CI validates structure, status vocabulary and that referenced artifact paths
+exist. If you add an artifact (doc, tool, rule) that addresses one of these
+obligations, update the matrix entry accordingly.
 
 ## Editing legal catalogs
 

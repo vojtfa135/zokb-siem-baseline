@@ -1,0 +1,52 @@
+title: Mail quarantine or block-list override by administrator
+id: 8a1e2c3d-4f5b-4a6d-9e7f-1b2c3d4e5f6a
+zokb_rule_id: zokb-mail-quarantine-override
+status: experimental
+description: >-
+  Detects an administrator releasing a quarantined message, disabling a
+  block/deny-list entry, or otherwise overriding the mail-security
+  platform's own verdict on a previously flagged message (EVT-22-3-B on
+  SRC-MAIL-GATEWAY-CLOUD/SRC-MAIL-GATEWAY-ONPREM). A single override is
+  routine triage; repeated overrides in a short window are escalated by
+  zokb-mail-quarantine-override-correlation.
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: zokb-siem-baseline
+date: 2026-08-05
+modified: 2026-08-05
+logsource:
+  product: any
+  category: email
+detection:
+  selection:
+    event.category: iam
+    event.type: admin
+    event.action|contains:
+      - quarantine-release
+      - allow-list-add
+      - block-list-remove
+      - policy-override
+  condition: selection
+fields:
+  - '@timestamp'
+  - event.timezone
+  - event.category
+  - event.type
+  - event.action
+  - host.id
+  - user.id
+  - source.ip
+  - event.outcome
+falsepositives:
+  - Legitimate helpdesk release of a false-positive quarantine
+level: low
+tags:
+  - zokb.v409.par22.3.b
+  - attack.t1566
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F

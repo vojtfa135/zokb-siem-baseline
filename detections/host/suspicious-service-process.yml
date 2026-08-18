@@ -1,0 +1,69 @@
+title: Suspicious service creation or process start on technical asset
+id: b4855ac3-b3d1-42b8-959c-c9bdbe25d3ed
+zokb_rule_id: zokb-host-suspicious-service-process
+status: experimental
+description: >-
+  Detects start of services, daemons and processes with suspicious
+  characteristics — new service/daemon installation, or execution from
+  user-writable temporary paths — across endpoints, hypervisors, cloud
+  workloads and container hosts. Provides genuine threat detection for
+  v409-22.3.e (start and stop of technical asset activities), which the
+  previously mapped autorun rule could never match.
+references:
+  - https://attack.mitre.org/techniques/T1543/
+  - https://attack.mitre.org/techniques/T1569/
+author: zokb-siem-baseline
+date: 2026-07-31
+modified: 2026-07-31
+logsource:
+  product: any
+  category: process
+detection:
+  selection_service_creation:
+    event.category:
+      - process
+      - host
+    event.type: start
+    event.action|contains:
+      - service install
+      - service create
+      - new service
+      - daemon start
+      - unit start
+  selection_user_writable_execution:
+    event.category: process
+    event.type: start
+    process.executable|contains:
+      - /tmp/
+      - /var/tmp/
+      - /dev/shm/
+      - \AppData\Local\Temp\
+      - \Users\Public\
+      - \ProgramData\
+  condition: 1 of selection_*
+fields:
+  - '@timestamp'
+  - event.timezone
+  - event.category
+  - event.type
+  - event.action
+  - host.id
+  - user.id
+  - device.id
+  - source.ip
+  - event.outcome
+falsepositives:
+  - Software distribution and package managers staging binaries in temp paths
+  - Scheduled maintenance installing or starting services
+level: high
+tags:
+  - zokb.v409.par22.3.e
+  - attack.t1543
+  - attack.t1569
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F

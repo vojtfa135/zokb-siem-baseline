@@ -1,0 +1,35 @@
+id: SRC-WEB-PROXY
+title: Outbound web proxy / secure web gateway (Zscaler, Blue Coat, Squid)
+transport:
+  protocol: syslog-tls
+  format: rfc5424
+  failure_detection:
+    mechanism: silence-scored-alert
+    note: >-
+      Loss of flow is detected SIEM-side by silence scoring (no events from the
+      source within the scoring window). SIEM rules MUST alert within 15 minutes
+      of the last received event and confirm auto-recovery within the next window
+      after remediation (v409-22.6 alerting-duty interpretation).
+must_emit_event_classes:
+  - EVT-22-3-A
+  - EVT-22-3-D
+  - EVT-22-3-I
+  - EVT-DET-PERIMETER
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-F
+note: >-
+  Outbound/forward web proxy or secure web gateway mediating user internet
+  access (Zscaler, Blue Coat/Symantec ProxySG, Squid, Forcepoint). Event-plane
+  scoping: this source is the ACCESS-DECISION plane -- authenticated-proxy
+  user logons (EVT-22-3-A), blocked/denied requests by URL category or
+  reputation (EVT-22-3-D, also treated as a perimeter-denial signal under
+  EVT-DET-PERIMETER for the §23 false-positive-reduction correlation duty),
+  and changes to filtering/logging policy (EVT-22-3-I). Administrative
+  logons to the proxy's own management plane (device configuration, not
+  user web traffic) belong to SRC-NETDEV, not this source -- do not blur the
+  two. For the lower regime, FLD-E (originating device) is optional per the
+  same carve-out used by SRC-VPN.

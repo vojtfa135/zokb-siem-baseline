@@ -15,11 +15,15 @@
           "title": { "type": "string" },
           "ecs": { "type": "object" },
           "ocsf": {
-            "type": "object",
-            "required": ["class_uid", "class_name"],
-            "properties": {
-              "class_uid": { "type": ["integer", "string"] },
-              "class_name": { "type": "string" }
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["class_uid", "class_name"],
+              "properties": {
+                "class_uid": { "type": ["integer", "string"] },
+                "class_name": { "type": "string" }
+              }
             }
           },
           "attack": { "type": "array", "items": { "type": "string" } },

@@ -48,8 +48,11 @@ sigma convert -t sentinel detections/network/perimeter-block.yml
 
 CI validates:
 - YAML files against JSON schemas in `schema/`
-- coverage consistency via `tools/coverage_check.py`
-- Sigma lint/conversion on a best-effort basis
+- coverage consistency via `tools/coverage_check.py` (log-source linkage,
+  resolvable detection-rule references, orphan rules, correlation legs,
+  §23-process-control matrix; warns on rule↔event-class ECS mismatches)
+- rule-review cadence via `tools/staleness_check.py` (advisory warn-mode)
+- Sigma lint/conversion on all rule files, best effort
 
 Run locally:
 

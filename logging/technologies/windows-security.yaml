@@ -1,0 +1,509 @@
+id: TECH-WINDOWS-SECURITY
+title: Windows Security / System / Defender / AppLocker telemetry
+vendor: microsoft
+product: windows-security
+implements:
+  - source: SRC-WINDOWS
+    event_mappings:
+      # Audit policy prerequisites: most Security-log IDs need the matching
+      # advanced audit-policy subcategory; object-level records (4663 on .evtx)
+      # additionally need SACLs; 4688 command lines need
+      # "Include command line in process creation events".
+      EVT-22-3-A:  # Audit Logon / Audit Logoff
+        - id: "4624"
+          channel: Security
+          record: Successful logon (LogonType distinguishes interactive/network/service/RDP/batch)
+          outcome: success
+        - id: "4625"
+          channel: Security
+          record: Failed logon; reason in Status/SubStatus
+          outcome: failure
+        - id: "4634"
+          channel: Security
+          record: Account logged off
+        - id: "4647"
+          channel: Security
+          record: User-initiated logoff
+        - id: "4648"
+          channel: Security
+          record: Logon with explicit credentials (RunAs, mapped drive, scheduled task)
+        - id: "4778"
+          channel: Security
+          record: Session reconnected (RDP, Fast User Switching)
+        - id: "4779"
+          channel: Security
+          record: Session disconnected
+        - id: "4800"
+          channel: Security
+          record: Workstation locked
+        - id: "4801"
+          channel: Security
+          record: Workstation unlocked
+      EVT-22-3-B:  # Audit Sensitive Privilege Use
+        - id: "4672"
+          channel: Security
+          record: Special privileges assigned to new logon (admin-equivalent)
+        - id: "4673"
+          channel: Security
+          record: Privileged service called (success and failure)
+        - id: "4674"
+          channel: Security
+          record: Privileged object operation attempted (success and failure)
+        - id: "4688"
+          channel: Security
+          record: Process created with elevated token (TokenElevationType %%1937) -- high-integrity execution
+        - id: "7040"
+          channel: System
+          record: Service start type changed (Service Control Manager)
+        - id: "4704"
+          channel: Security
+          record: User right assigned (e.g. SeBackupPrivilege)
+        - id: "4705"
+          channel: Security
+          record: User right removed
+      EVT-22-3-C:  # Audit User Account Management (+ group mgmt on member servers)
+        - id: "4720"
+          channel: Security
+          record: User account created
+        - id: "4722"
+          channel: Security
+          record: User account enabled
+        - id: "4723"
+          channel: Security
+          record: Password change attempted (self)
+        - id: "4724"
+          channel: Security
+          record: Password reset attempted (by another account)
+        - id: "4725"
+          channel: Security
+          record: User account disabled
+        - id: "4726"
+          channel: Security
+          record: User account deleted
+        - id: "4738"
+          channel: Security
+          record: User account changed (flags, expiry, delegation)
+        - id: "4740"
+          channel: Security
+          record: User account locked out
+        - id: "4767"
+          channel: Security
+          record: User account unlocked
+        - id: "4781"
+          channel: Security
+          record: Account renamed
+        - id: "4731"
+          channel: Security
+          record: Local security group created
+        - id: "4732"
+          channel: Security
+          record: Member added to local security group
+        - id: "4733"
+          channel: Security
+          record: Member removed from local security group
+        - id: "4704"
+          channel: Security
+          record: User right assigned
+        - id: "4705"
+          channel: Security
+          record: User right removed
+      EVT-22-3-D:  # Failure auditing of object access / privilege use
+        - id: "4656"
+          channel: Security
+          record: Object handle requested -- Failure audit = access denied at request time
+          outcome: failure
+        - id: "4663"
+          channel: Security
+          record: Object access attempt -- Failure audit = the denied operation (file/key/.evtx)
+          outcome: failure
+        - id: "4674"
+          channel: Security
+          record: Privileged object operation -- Failure = missing privilege
+          outcome: failure
+        - id: "5145"
+          channel: Security
+          record: Share object access checked -- Failure = share/file ACL denial over SMB
+          outcome: failure
+      EVT-22-3-E:
+        - id: "7045"
+          channel: System
+          record: Service installed (ServiceName, ImagePath)
+        - id: "4697"
+          channel: Security
+          record: Service installed (Security-log variant)
+        - id: "7036"
+          channel: System
+          record: Service entered running/stopped/paused state
+        - id: "7000"
+          channel: System
+          record: Service failed to start (generic)
+        - id: "7023"
+          channel: System
+          record: Service terminated with error
+        - id: "7031"
+          channel: System
+          record: Service terminated unexpectedly; recovery configured
+        - id: "7034"
+          channel: System
+          record: Service crashed
+        - id: "6005"
+          channel: System
+          record: Event Log service started -- approximates system startup
+        - id: "6006"
+          channel: System
+          record: Event Log service stopped -- approximates graceful shutdown
+        - id: "12"
+          channel: System
+          record: Kernel-General OS start
+        - id: "13"
+          channel: System
+          record: Kernel-General OS stop
+        - id: "4608"
+          channel: Security
+          record: Windows starting up (Security-log equivalent)
+        - id: "4609"
+          channel: Security
+          record: Windows shutting down
+        - id: "4688"
+          channel: Security
+          record: Process created (Audit Process Creation)
+        - id: "4689"
+          channel: Security
+          record: Process terminated
+      EVT-22-3-F:  # no audit policy needed (kernel/service error logging)
+        - id: "41"
+          channel: System
+          record: Kernel-Power -- reboot without clean shutdown
+        - id: "1001"
+          channel: System
+          record: BugCheck (blue screen); param1 = stop code
+        - id: "6008"
+          channel: System
+          record: Previous shutdown was unexpected
+        - id: "55"
+          channel: System
+          record: NTFS file system corruption
+        - id: "51"
+          channel: System
+          record: Disk paging/IO error
+        - id: "7"
+          channel: System
+          record: Disk bad block
+        - id: "129"
+          channel: System
+          record: Storage device reset
+        - id: "5722"
+          channel: System
+          record: Netlogon secure channel to DC failed
+        - id: "7034"
+          channel: System
+          record: Service crashed (also EVT-22-3-E)
+        - id: "7000"
+          channel: System
+          record: Service failed to start (also EVT-22-3-E)
+      EVT-22-3-G:  # needs SACL on *.evtx files
+        - id: "4663"
+          channel: Security
+          record: Access to log files (System32\Winevt\Logs\*.evtx); AccessMask distinguishes read/write
+        - id: "4656"
+          channel: Security
+          record: Handle requested on log file object (context)
+        - id: "4658"
+          channel: Security
+          record: Handle closed on log file object (context)
+      EVT-22-3-H:
+        - id: "1102"
+          channel: Security
+          record: Security log was cleared (always logged; actor in SubjectUserSid)
+        - id: "104"
+          channel: Microsoft-Windows-Eventlog/Operational
+          record: Any other channel log cleared (System, Application, PowerShell, ...)
+        - id: "1100"
+          channel: Security
+          record: Event logging service shut down (precedes tampering)
+        - id: "4688"
+          channel: Security
+          record: Command-line tamper tools (wevtutil cl, Clear-EventLog) -- needs command-line auditing
+      EVT-22-3-I:  # Audit Audit Policy Change + Audit Authentication Policy Change
+        - id: "4719"
+          channel: Security
+          record: System audit policy changed (CategoryId, subcategory on/off)
+        - id: "4907"
+          channel: Security
+          record: Auditing settings (SACL) on an object changed -- incl. log files
+        - id: "4904"
+          channel: Security
+          record: Security event source registered with the audit system
+        - id: "4905"
+          channel: Security
+          record: Security event source unregistered
+        - id: "4908"
+          channel: Security
+          record: Special Groups logon table modified
+        - id: "4739"
+          channel: Security
+          record: Domain security policy changed
+        - id: "4688"
+          channel: Security
+          record: Logging-config command lines (auditpol /set, wevtutil sl, Set-WinEvent)
+      EVT-22-3-J:
+        - id: "4670"
+          channel: Security
+          record: Permissions on an object changed (DACL edit; ObjectName, OldSd, NewSd)
+        - id: "5140"
+          channel: Security
+          record: Network share accessed (Audit File Share)
+        - id: "5142"
+          channel: Security
+          record: Network share added
+        - id: "5144"
+          channel: Security
+          record: Network share removed
+        - id: "5145"
+          channel: Security
+          record: Share object checked for access (Audit Detailed File Share)
+        - id: "4911"
+          channel: Security
+          record: Resource attributes of an object changed
+        - id: "4913"
+          channel: Security
+          record: Central access policy on an object changed
+      EVT-DET-MALWARE:  # Microsoft-Windows-Windows Defender/Operational
+        - id: "1116"
+          channel: Microsoft-Windows-Windows Defender/Operational
+          record: Defender -- malware or potentially unwanted software detected
+        - id: "1117"
+          channel: Microsoft-Windows-Windows Defender/Operational
+          record: Defender -- action taken to protect from the threat (remediation outcome)
+        - id: "1118"
+          channel: Microsoft-Windows-Windows Defender/Operational
+          record: Defender -- remediation action failed
+        - id: "1119"
+          channel: Microsoft-Windows-Windows Defender/Operational
+          record: Defender -- critically failed remediation
+      EVT-DET-AUTORUN:
+        - id: "8004"
+          channel: Microsoft-Windows-AppLocker/EXE and DLL
+          record: AppLocker -- executable blocked from running (incl. removable media paths)
+        - id: "8007"
+          channel: Microsoft-Windows-AppLocker/MSI and Script
+          record: AppLocker -- script/MSI blocked
+        - id: "4663"
+          channel: Security
+          record: Removable storage object access (needs Removable Storage Access audit policy + SACL semantic)
+  - source: SRC-AD-DC
+    event_mappings:
+      # DC role: Security log + directory-service auditing. Requires the
+      # advanced audit-policy subcategories listed per class (GPO on DCs) and
+      # SACLs set on directory-service objects for 4662/5136 records.
+      EVT-22-3-A:  # Audit Account Logon (Kerberos) + Audit Logon
+        - id: "4768"
+          channel: Security
+          record: Kerberos TGT requested; failures via Failure Code (wrong pw, locked, expired)
+        - id: "4769"
+          channel: Security
+          record: Kerberos service ticket requested
+        - id: "4770"
+          channel: Security
+          record: Kerberos service ticket renewed
+        - id: "4771"
+          channel: Security
+          record: Kerberos pre-authentication failed
+          outcome: failure
+        - id: "4776"
+          channel: Security
+          record: Account credential validation (NTLM); failures carry error code
+        - id: "4624"
+          channel: Security
+          record: Successful logon at the DC (admin/interactive/network)
+          outcome: success
+        - id: "4625"
+          channel: Security
+          record: Failed logon at the DC; reason in Status/SubStatus
+          outcome: failure
+      EVT-22-3-B:
+        - id: "4672"
+          channel: Security
+          record: Special privileges assigned to new logon (admin-equivalent)
+        - id: "4673"
+          channel: Security
+          record: Privileged service called (success and failure)
+        - id: "4674"
+          channel: Security
+          record: Privileged object operation attempted (success and failure)
+      EVT-22-3-C:  # Audit User/Computer/Group Account Management + DS Changes
+        - id: "4720"
+          channel: Security
+          record: User account created
+        - id: "4722"
+          channel: Security
+          record: User account enabled
+        - id: "4723"
+          channel: Security
+          record: Password change attempted (self)
+        - id: "4724"
+          channel: Security
+          record: Password reset attempted (by admin)
+        - id: "4725"
+          channel: Security
+          record: User account disabled
+        - id: "4726"
+          channel: Security
+          record: User account deleted
+        - id: "4738"
+          channel: Security
+          record: User account changed (flags, delegation, expiry)
+        - id: "4740"
+          channel: Security
+          record: User account locked out
+        - id: "4767"
+          channel: Security
+          record: User account unlocked
+        - id: "4781"
+          channel: Security
+          record: Account renamed
+        - id: "4727"
+          channel: Security
+          record: Global security group created
+        - id: "4728"
+          channel: Security
+          record: Member added to global security group
+        - id: "4729"
+          channel: Security
+          record: Member removed from global security group
+        - id: "4731"
+          channel: Security
+          record: Domain local security group created
+        - id: "4732"
+          channel: Security
+          record: Member added to domain local security group
+        - id: "4733"
+          channel: Security
+          record: Member removed from domain local security group
+        - id: "4754"
+          channel: Security
+          record: Universal security group created
+        - id: "4756"
+          channel: Security
+          record: Member added to universal security group
+        - id: "4757"
+          channel: Security
+          record: Member removed from universal security group
+        - id: "4758"
+          channel: Security
+          record: Universal security group deleted
+        - id: "4741"
+          channel: Security
+          record: Computer account created
+        - id: "4742"
+          channel: Security
+          record: Computer account changed
+        - id: "4743"
+          channel: Security
+          record: Computer account deleted
+        - id: "4765"
+          channel: Security
+          record: SID history added (privilege-bearing)
+        - id: "4766"
+          channel: Security
+          record: SID history add attempt failed
+          outcome: failure
+        - id: "5136"
+          channel: Security
+          record: Directory object modified (ObjectDN, AttributeLDAPDisplayName, Value)
+        - id: "5137"
+          channel: Security
+          record: Directory object created (OU, GPO links, ...)
+        - id: "5141"
+          channel: Security
+          record: Directory object deleted
+        - id: "4662"
+          channel: Security
+          record: Operation on a DS object (attribute writes; SACL needed)
+      EVT-22-3-D:  # Failure auditing
+        - id: "4662"
+          channel: Security
+          record: DS object operation denied (SACL needed)
+          outcome: failure
+        - id: "4674"
+          channel: Security
+          record: Privileged object operation -- Failure = missing privilege
+          outcome: failure
+        - id: "4656"
+          channel: Security
+          record: Object handle requested -- Failure = access denied
+          outcome: failure
+        - id: "4663"
+          channel: Security
+          record: Object access attempt -- Failure = denied operation
+          outcome: failure
+      EVT-22-3-H:
+        - id: "1102"
+          channel: Security
+          record: DC Security log cleared (actor in SubjectUserSid)
+        - id: "104"
+          channel: Microsoft-Windows-Eventlog/Operational
+          record: Other DC channel log cleared
+        - id: "1100"
+          channel: Security
+          record: Event logging service shut down
+      EVT-22-3-I:  # Audit Audit Policy Change + Authentication Policy Change
+        - id: "4719"
+          channel: Security
+          record: System audit policy changed (CategoryId, subcategory on/off)
+        - id: "4907"
+          channel: Security
+          record: Auditing settings (SACL) on an object changed -- incl. DS objects
+        - id: "4904"
+          channel: Security
+          record: Security event source registered
+        - id: "4905"
+          channel: Security
+          record: Security event source unregistered
+        - id: "4908"
+          channel: Security
+          record: Special Groups logon table modified
+        - id: "4739"
+          channel: Security
+          record: Domain security policy changed
+      EVT-22-3-J:
+        - id: "4670"
+          channel: Security
+          record: Permissions on an object changed (DACL edit; ObjectName, OldSd, NewSd)
+        - id: "5140"
+          channel: Security
+          record: Network share accessed (SYSVOL/NETLOGON access)
+        - id: "5142"
+          channel: Security
+          record: Network share added
+        - id: "5144"
+          channel: Security
+          record: Network share removed
+        - id: "5145"
+          channel: Security
+          record: Share object checked for access (SYSVOL/GPO reads with Detail)
+        - id: "4765"
+          channel: Security
+          record: SID history added (cross-ref EVT-22-3-C; high-value persistence signal)
+        - id: "4911"
+          channel: Security
+          record: Resource attributes of an object changed
+        - id: "4913"
+          channel: Security
+          record: Central access policy on an object changed
+note: >-
+  Migrated from the former windows_events blocks in logging/sources/windows.yaml
+  and logging/sources/ad-dc.yaml (see git history for provenance). Prefer
+  host.id and user.id as stable identifiers; include device.id where available.
+  Subject fields: actor in SubjectUserSid (FLD-D), target account in
+  TargetUserSid (see FLD-D constraint); originating client from IpAddress
+  (FLD-E). SIEM normalization must map each event id's audit keyword
+  (Success/Failure) or status code (Status/SubStatus in 4625, FailureCode in
+  Kerberos events) to event.outcome (FLD-F). Sysmon may augment (process/
+  network detail) but never replaces Security-log records for mandatory
+  classes. ACSC priority #3/#4 items (Kerberos/NTLM auth, account/group mgmt,
+  sensitive privilege use, directory-service changes, audit-log tampering)
+  require the group-policy audit categories enabled per the ACSC reference
+  annex. This is a vendor-generic reference maintained with the baseline (no
+  `org`); not a compliance obligation in itself -- see
+  logging/technologies/README.md.

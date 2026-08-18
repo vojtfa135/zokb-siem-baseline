@@ -1,0 +1,36 @@
+id: SRC-NAC
+title: Network access control — RADIUS/802.1X and WiFi enterprise authentication
+transport:
+  protocol: syslog-tls
+  format: rfc5424
+  failure_detection:
+    mechanism: silence-scored-alert
+    note: >-
+      Loss of flow is detected SIEM-side by silence scoring (no events from the
+      source within the scoring window). SIEM rules MUST alert within 15 minutes
+      of the last received event and confirm auto-recovery within the next window
+      after remediation (v409-22.6 alerting-duty interpretation).
+must_emit_event_classes:
+  - EVT-22-3-A
+  - EVT-22-3-D
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F
+note: >-
+  802.1X/WPA-Enterprise and NAC authentication decisions from RADIUS servers
+  and wireless infrastructure: Cisco ISE, Aruba ClearPass, FreeRADIUS,
+  Microsoft NPS, WLAN controllers/APs and 802.1X-capable switches.
+  Access-Accept/Reject for user (EAP-PEAP/EAP-TLS) and machine auth, MAC
+  Authentication Bypass (MAB), Change-of-Authorization and re-authentication
+  events — both successes and failures (EVT-22-3-A) and authorization denials
+  e.g. VLAN/ACL assignment refused (EVT-22-3-D). Identity mapping: FLD-C is
+  the authenticator (NAS-Identifier of the AP/WLC/switch), FLD-D the
+  supplicant identity (User-Name / certificate subject), and FLD-E the
+  originating device — Calling-Station-Id normalized to source.mac makes
+  NAC the strongest FLD-E provider in the baseline. Administrative
+  authentication INTO the NAC/AP management plane (TACACS+/local logons)
+  belongs to SRC-NETDEV, not this source.

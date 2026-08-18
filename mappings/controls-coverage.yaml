@@ -1,0 +1,91 @@
+version: 1
+# Evaluation/process-control coverage (vyhl. 409/2025 §23, vyhl. 410/2025
+# §9(1)(d)(e)). These obligations are operational rather than Sigma-shaped;
+# this matrix records where each is represented so the gap is auditable.
+# Status vocabulary: implemented | partial | not-represented.
+controls:
+  - id: v409-23.1.a
+    title: Continuous evaluation — collection, search and grouping of records
+    status: implemented
+    owner: Detection engineering
+    artifacts:
+      - detections/auth/failed-logons-correlation.yml
+      - detections/auth/post-bruteforce-success-correlation.yml
+      - detections/auth/multi-source-logon-correlation.yml
+      - detections/iam/persistence-chain-correlation.yml
+      - detections/host/error-storm-correlation.yml
+    note: >-
+      Six correlation rules implement the "seskupování souvisejících záznamů"
+      (grouping) duty across classes A, B, C and F.
+  - id: v409-23.1.b
+    title: Continuous information provision and early warning
+    status: partial
+    owner: SOC / alerting pipeline
+    artifacts: []
+    note: >-
+      Rule levels (informational..high) encode alerting priority, but the
+      alerting/notification pipeline itself lives in the SIEM deployment,
+      outside this repository.
+  - id: v409-23.1.c
+    title: Evaluation of records to identify incidents
+    status: implemented
+    owner: Detection engineering
+    artifacts:
+      - detections/
+      - mappings/coverage.yaml
+    note: Every mandatory event class has at least one mapped Sigma rule.
+  - id: v409-23.2.a
+    title: Reduction of false or undesired evaluations
+    status: partial
+    owner: Detection engineering
+    artifacts:
+      - detections/network/perimeter-block.yml
+      - detections/network/repeat-perimeter-denials-correlation.yml
+    note: >-
+      Broad audit rules are demoted to informational/low and paired with
+      high-signal tuned subsets; every rule carries a falsepositives: field.
+      Aggregate alert-volume review cadence is defined in
+      docs/detection-lifecycle.md.
+  - id: v409-23.2.b
+    title: Regular update of detection rules
+    status: implemented
+    owner: Detection engineering
+    artifacts:
+      - tools/staleness_check.py
+      - docs/detection-lifecycle.md
+    note: >-
+      Staleness check (warn-mode CI) flags rules whose modified: date
+      exceeds the 365-day review window; cadence policy in the lifecycle doc.
+  - id: v409-23.2.c
+    title: Regular update of alerting rules
+    status: implemented
+    owner: Detection engineering
+    artifacts:
+      - tools/staleness_check.py
+      - docs/detection-lifecycle.md
+    note: Same mechanism as v409-23.2.b — alerting and detection rules share
+      one review cycle in this baseline.
+  - id: v409-23.3
+    title: Feed evaluation results into the ISMS
+    status: partial
+    owner: ISMS owner / CISO office
+    artifacts:
+      - docs/detection-lifecycle.md
+    note: >-
+      The lifecycle policy defines the feedback loop (alert stats, tuning
+      decisions and incident lessons back into this repository); the ISMS
+      integration itself is organisational, not code.
+  - id: v410-9.1.d
+    title: Continuous information provision and early warning (lower regime)
+    status: partial
+    owner: SOC / alerting pipeline
+    artifacts: []
+    note: Same deployment-side caveat as v409-23.1.b.
+  - id: v410-9.1.e
+    title: Update of detection tools and rules (lower regime)
+    status: implemented
+    owner: Detection engineering
+    artifacts:
+      - tools/staleness_check.py
+      - docs/detection-lifecycle.md
+    note: The staleness check covers all rules, both regimes.

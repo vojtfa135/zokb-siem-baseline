@@ -1,0 +1,55 @@
+title: Privileged or administrative activity
+id: 2b01b3a5-6531-4d68-acdb-3bbae95c2d72
+zokb_rule_id: zokb-iam-privileged-activity
+status: experimental
+description: >-
+  Detects privileged operations including sudo and administrative command
+  execution, privilege grants, and administrative API calls across endpoints,
+  directory services, network devices, hypervisors, cloud and container
+  platforms. Serves as a baseline audit detection for v409-22.3.b/j.
+references:
+  - https://attack.mitre.org/techniques/T1548/
+  - https://attack.mitre.org/techniques/T1078/
+author: zokb-siem-baseline
+date: 2026-07-31
+modified: 2026-07-31
+logsource:
+  product: any
+  category: iam
+detection:
+  selection:
+    event.category:
+      - iam
+      - process
+    event.type:
+      - admin
+      - change
+      - start
+      - end
+  condition: selection
+fields:
+  - '@timestamp'
+  - event.timezone
+  - event.category
+  - event.type
+  - event.action
+  - host.id
+  - user.id
+  - device.id
+  - source.ip
+  - event.outcome
+falsepositives:
+  - Legitimate administrative activity during scheduled maintenance
+level: low
+tags:
+  - zokb.v409.par22.3.b
+  - zokb.v409.par22.3.j
+  - attack.t1548
+  - attack.t1078
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F

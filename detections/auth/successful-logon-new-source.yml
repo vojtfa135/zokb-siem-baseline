@@ -1,0 +1,47 @@
+title: Successful account logon
+id: 54ac94d1-dd71-4dcb-944f-009b2fc50700
+zokb_rule_id: zokb-auth-successful-logon
+status: experimental
+description: >-
+  Baseline evaluation of successful account logons across Windows, Linux,
+  AD/DC, VPN gateways, cloud identity providers and container platforms.
+  Serves the v409-22.3.a duty to evaluate successful logons (not only
+  failures) and acts as the building-block leg for account-takeover and
+  multi-source correlations.
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: zokb-siem-baseline
+date: 2026-07-31
+modified: 2026-07-31
+logsource:
+  product: any
+  category: authentication
+detection:
+  selection:
+    event.category: authentication
+    event.outcome: success
+  condition: selection
+fields:
+  - '@timestamp'
+  - event.timezone
+  - event.category
+  - event.type
+  - event.action
+  - host.id
+  - user.id
+  - device.id
+  - source.ip
+  - event.outcome
+falsepositives:
+  - All legitimate user logons (audit baseline, meant for correlation)
+level: informational
+tags:
+  - zokb.v409.par22.3.a
+  - attack.t1078
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F

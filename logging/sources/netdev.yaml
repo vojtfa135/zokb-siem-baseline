@@ -1,0 +1,32 @@
+id: SRC-NETDEV
+title: Network infrastructure devices (routers, switches, wireless controllers)
+transport:
+  protocol: syslog-tls
+  format: rfc5424
+  failure_detection:
+    mechanism: silence-scored-alert
+    note: >-
+      Loss of flow is detected SIEM-side by silence scoring (no events from the
+      source within the scoring window). SIEM rules MUST alert within 15 minutes
+      of the last received event and confirm auto-recovery within the next window
+      after remediation (v409-22.6 alerting-duty interpretation).
+must_emit_event_classes:
+  - EVT-22-3-A
+  - EVT-22-3-B
+  - EVT-22-3-F
+  - EVT-22-3-I
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-F
+note: >-
+  Device-management plane only (ACSC priority #2): administrator
+  authentication (EVT-22-3-A), privileged/config-mode execution (EVT-22-3-B),
+  running-state and health events (EVT-22-3-F), and configuration changes
+  (EVT-22-3-I). Access-decision telemetry on the same boxes is out of scope:
+  802.1X/MAC authentication belongs to SRC-NAC, remote-access sessions to
+  SRC-VPN, undesirable-communication blocking to SRC-FIREWALL (perimeter) and
+  SRC-WAF (L7). NetFlow from critical subnets is recommended but out of the
+  mandatory field set. For lower regime FLD-E is optional.

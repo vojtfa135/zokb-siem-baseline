@@ -1,0 +1,49 @@
+title: Burst of file access or deletion on a file server (possible ransomware/exfiltration)
+id: 8f9a0b1c-2d3e-4f4a-9b5c-6d7e8f9a0b1c
+zokb_rule_id: zokb-file-mass-access-or-deletion-correlation
+status: experimental
+description: >-
+  Correlates a high volume of file access/deletion events from the same
+  account on a file server within a short window -- the pattern of
+  ransomware encrypting shares or an account exfiltrating/deleting large
+  volumes of data. The baseline 'File server access, deletion, or
+  permission change' rule fires per-event (informational audit of
+  EVT-22-3-J); this correlation surfaces bursts worth investigating and
+  serves the false-positive-reduction duty of v409-23.2.a.
+references:
+  - https://attack.mitre.org/techniques/T1486/
+  - https://attack.mitre.org/techniques/T1005/
+author: zokb-siem-baseline
+date: 2026-08-05
+modified: 2026-08-05
+correlation:
+  type: event_count
+  rules:
+    - 7e8f9a0b-1c2d-4e3f-8a4b-5c6d7e8f9a0b
+  group-by:
+    - user.id
+  timespan: 5m
+  condition:
+    gte: 50
+fields:
+  - '@timestamp'
+  - event.action
+  - user.id
+  - host.id
+  - event.outcome
+falsepositives:
+  - Scheduled backup, sync, or bulk-migration jobs
+  - Authorized bulk archival/cleanup by an administrator
+level: high
+tags:
+  - zokb.v409.par22.3.j
+  - zokb.v409.par23.1.a
+  - zokb.v409.par23.2.a
+  - attack.t1486
+  - attack.t1005
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-F

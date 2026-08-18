@@ -1,0 +1,66 @@
+title: Membership change in a privileged group or role
+id: 78b7131e-77b7-4a62-81ee-3e3406a4ed70
+zokb_rule_id: zokb-iam-privileged-group-membership-change
+status: experimental
+description: >-
+  High-signal subset of v409-22.3.b/c: detects membership changes affecting
+  privileged groups and roles (Domain Admins, Enterprise Admins, sudo/wheel,
+  cloud admin/owner roles, cluster-admin) across directories, hypervisors,
+  identity providers and container platforms. Complements the broad
+  privileged-activity audit baseline instead of replacing it.
+references:
+  - https://attack.mitre.org/techniques/T1098/
+  - https://attack.mitre.org/techniques/T1078/
+author: zokb-siem-baseline
+date: 2026-07-31
+modified: 2026-07-31
+logsource:
+  product: any
+  category: iam
+detection:
+  selection_membership:
+    event.category: iam
+    event.type: change
+    event.action|contains:
+      - member added
+      - member removed
+      - group membership
+      - role assignment
+      - role binding
+  selection_privileged_target:
+    group.name|contains:
+      - admin
+      - administrator
+      - root
+      - wheel
+      - sudo
+      - owner
+  condition: all of selection_*
+fields:
+  - '@timestamp'
+  - event.timezone
+  - event.category
+  - event.type
+  - event.action
+  - host.id
+  - user.id
+  - group.name
+  - device.id
+  - source.ip
+  - event.outcome
+falsepositives:
+  - Approved change windows and joiner/leaver provisioning
+level: high
+tags:
+  - zokb.v409.par22.3.b
+  - zokb.v409.par22.3.c
+  - zokb.v409.par23.2.a
+  - attack.t1098
+  - attack.t1078
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F

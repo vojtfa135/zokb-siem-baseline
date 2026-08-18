@@ -4,10 +4,21 @@ auth_scope: appliance
 transport:
   protocol: syslog-tls
   format: cef
+  failure_detection:
+    mechanism: silence-scored-alert
+    note: >-
+      Loss of flow is detected SIEM-side by silence scoring (no events from the
+      source within the scoring window). SIEM rules MUST alert within 15 minutes
+      of the last received event and confirm auto-recovery within the next window
+      after remediation (v409-22.6 alerting-duty interpretation).
 must_emit_event_classes:
   - EVT-22-3-A
+  - EVT-22-3-B
+  - EVT-22-3-D
+  - EVT-22-3-F
   - EVT-22-3-G
   - EVT-22-3-H
+  - EVT-22-3-I
   - EVT-DET-PERIMETER
 must_emit_fields:
   - FLD-A
@@ -15,4 +26,13 @@ must_emit_fields:
   - FLD-C
   - FLD-D
   - FLD-F
-note: For lower regime FLD-E is optional; include source.device.id when supported.
+note: >-
+  Dual role, both planes of one box. Access-decision plane: perimeter
+  verification and blocking of undesirable communication (EVT-DET-PERIMETER)
+  — the subject is the flow endpoint, so deny events MUST normalize to
+  event.category: network + event.type: denied, and the real client should
+  be preserved in source.ip (FLD-E is formally optional in the lower
+  regime). Device-management plane: admin authentication (EVT-22-3-A),
+  privileged config execution (EVT-22-3-B), denials (EVT-22-3-D), health
+  (EVT-22-3-F), and log access/tampering/config changes (EVT-22-3-G/H/I)
+  — there the subject is the admin operating the box itself.

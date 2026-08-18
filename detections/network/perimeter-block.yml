@@ -1,9 +1,15 @@
 title: Perimeter blocked undesirable communication
 id: a0837619-f53c-4ac5-85de-e95a07495ede
+zokb_rule_id: zokb-net-perimeter-block
 status: experimental
-description: Detects denied network communication on perimeter controls.
+description: >-
+  Audit baseline for denied network communication on perimeter controls.
+  Fires on every denial and stays informational to honour the
+  false-positive-reduction duty (v409-23.2.a); actionable signal comes from
+  the zokb-net-repeat-perimeter-denials correlation.
 author: zokb-siem-baseline
 date: 2026-06-09
+modified: 2026-07-31
 logsource:
   product: any
   category: network
@@ -23,11 +29,12 @@ fields:
   - source.ip
   - event.outcome
 falsepositives:
-  - Expected policy-denied traffic
-level: medium
+  - Expected policy-denied traffic (the majority of hits by design)
+level: informational
 tags:
   - zokb.v410.par9.1.a
   - zokb.v410.par9.2.b
+  - zokb.v409.par23.2.a
   - attack.t1562.004
 zokb_required_fields:
   - FLD-A

@@ -22,22 +22,38 @@ fields:
       - host.id
       - host.name
       - observer.name
-    constraint: Higher regime requires identifier stable across network identity changes (not only IP); lower regime requires identifiable technical asset.
+    constraint: >-
+      Higher regime requires identifier stable across network identity changes
+      (not only IP); lower regime requires identifiable technical asset.
+      observer.name is valid only when the observer IS the asset (e.g. a
+      firewall reporting its own activity) - per ECS, observer.* describes the
+      monitoring intermediary, not the asset itself. For non-host assets
+      (containers, VMs, cloud instances) alias container.id /
+      cloud.instance.id into host.id at ingestion.
   - id: FLD-D
     ref: v409-22.4.d; v410-9.2.b.3
     title: Identifikace účtu
     ecs:
       - user.id
       - user.name
-    constraint: Higher regime requires unique account identifier and stability across network re-identification; lower regime requires account identification.
+    constraint: >-
+      Higher regime requires unique account identifier and stability across
+      network re-identification; lower regime requires account identification.
+      For account-manipulation events (EVT-22-3-C), user.id/user.name refer to
+      the ACTING account; populate user.target.id / user.target.name for the
+      account being manipulated (optional in lower regime).
   - id: FLD-E
     ref: v409-22.4.e
     title: Identifikace zařízení původce
     ecs:
-      - source.device.id
+      - device.id
       - source.ip
       - source.mac
-    constraint: Required only in higher regime; identifier should remain stable across IP changes where feasible.
+    constraint: >-
+      Required only in higher regime; identifier should remain stable across IP
+      changes where feasible. ECS note: device.id is a top-level field set (the
+      device field set is NOT documented as nestable under source); use
+      source.ip/source.mac for network identity only.
   - id: FLD-F
     ref: v409-22.4.f; v410-9.2.b.4
     title: Úspěšnost nebo neúspěšnost činnosti

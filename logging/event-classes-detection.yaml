@@ -7,8 +7,8 @@ event_classes:
       event.category: [network]
       event.type: [connection, denied]
     ocsf:
-      class_uid: 4002
-      class_name: Network Activity
+      - class_uid: 4001
+        class_name: Network Activity
     attack: [T1046, T1562.004]
     outcomes: [success, failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-F]
@@ -19,8 +19,8 @@ event_classes:
       event.category: [malware]
       event.type: [info, indicator]
     ocsf:
-      class_uid: 2004
-      class_name: Malware Detection
+      - class_uid: 2004
+        class_name: Detection Finding
     attack: [T1059, T1204]
     outcomes: [success, failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-F]
@@ -31,8 +31,8 @@ event_classes:
       event.category: [host]
       event.type: [change, denied]
     ocsf:
-      class_uid: 1007
-      class_name: Process Activity
+      - class_uid: 1007
+        class_name: Process Activity
     attack: [T1091]
     outcomes: [success, failure]
     required_fields: [FLD-A, FLD-B, FLD-C, FLD-D, FLD-F]

@@ -1,0 +1,41 @@
+title: Repeated critical errors on a single asset (DoS indicator)
+id: 5447ade6-6183-4df9-8638-38620f83ef07
+zokb_rule_id: zokb-host-error-storm-correlation
+status: experimental
+description: >-
+  Correlates repeated critical/error messages (v409-22.3.f) from a single
+  technical asset within 30 minutes — a volume pattern consistent with
+  denial-of-service conditions, crash loops or destructive activity.
+  Implements the grouping duty of v409-23.1.a for class F.
+references:
+  - https://attack.mitre.org/techniques/T1499/
+author: zokb-siem-baseline
+date: 2026-07-31
+modified: 2026-07-31
+correlation:
+  type: event_count
+  rules:
+    - 98abce23-ded2-4d4d-96d4-a269316fd489
+  group-by:
+    - host.id
+  timespan: 30m
+  condition:
+    gte: 20
+fields:
+  - '@timestamp'
+  - event.action
+  - host.id
+  - event.outcome
+falsepositives:
+  - Flapping service during a genuine outage (investigate as availability
+    incident; tune threshold per asset criticality)
+level: medium
+tags:
+  - zokb.v409.par23
+  - zokb.v409.par23.1.a
+  - attack.t1499
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-F

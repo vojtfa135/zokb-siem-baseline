@@ -1,20 +1,29 @@
 title: Repeated failed logons from same source to account
 id: 4c0b0d3d-29e5-4340-8a19-fde7d7c0d486
+zokb_rule_id: zokb-auth-failed-logons-bruteforce
 status: experimental
-description: Detects suspicious repeated login failures indicating brute-force attempts.
+description: >-
+  Detects repeated authentication failures and authorization denials indicating
+  brute-force or credential-stuffing attempts across Windows, Linux, AD/DC,
+  VPN gateways, cloud identity providers and container API servers.
 references:
   - https://attack.mitre.org/techniques/T1110/
 author: zokb-siem-baseline
 date: 2026-06-09
+modified: 2026-07-31
 logsource:
   product: any
   category: authentication
 detection:
-  selection:
+  selection_auth_failure:
     event.category: authentication
-    event.action|contains: logon
     event.outcome: failure
-  condition: selection
+  selection_denied:
+    event.category:
+      - authentication
+      - iam
+    event.type: denied
+  condition: selection_auth_failure or selection_denied
 fields:
   - '@timestamp'
   - event.timezone
@@ -23,14 +32,17 @@ fields:
   - event.action
   - host.id
   - user.id
-  - source.device.id
+  - device.id
   - source.ip
   - event.outcome
 falsepositives:
   - User typing mistakes
+  - Expired credentials
+  - Misconfigured service accounts
 level: medium
 tags:
   - zokb.v409.par22.3.a
+  - zokb.v409.par22.3.d
   - zokb.v409.par22.4
   - attack.t1110
 zokb_required_fields:

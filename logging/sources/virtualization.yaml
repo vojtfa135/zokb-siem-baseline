@@ -1,0 +1,37 @@
+id: SRC-VIRTUALIZATION
+title: Virtualization / hypervisor management plane
+transport:
+  protocol: syslog-tls
+  format: rfc5424
+  failure_detection:
+    mechanism: silence-scored-alert
+    note: >-
+      Loss of flow is detected SIEM-side by silence scoring (no events from the
+      source within the scoring window). SIEM rules MUST alert within 15 minutes
+      of the last received event and confirm auto-recovery within the next window
+      after remediation (v409-22.6 alerting-duty interpretation).
+must_emit_event_classes:
+  - EVT-22-3-A
+  - EVT-22-3-B
+  - EVT-22-3-C
+  - EVT-22-3-E
+  - EVT-22-3-F
+  - EVT-22-3-G
+  - EVT-22-3-H
+  - EVT-22-3-I
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F
+note: >-
+  ACSC priority #6. Hypervisor management-plane audit logs (vCenter, Hyper-V
+  SCVMM, Proxmox VE, libvirt). Administrator authentication and authorization,
+  VM lifecycle (power on/off/suspend/create/delete), configuration and
+  snapshot manipulation (EVT-22-3-E), hypervisor host error/critical messages
+  (EVT-22-3-F), access to and tampering with audit logs (EVT-22-3-G/H), and
+  logging configuration changes (EVT-22-3-I). Forward VM-to-host association
+  where supported; preserve stable hypervisor host identity (FLD-C) and the
+  originating admin workstation (FLD-E).

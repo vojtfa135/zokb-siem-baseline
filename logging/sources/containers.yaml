@@ -1,0 +1,38 @@
+id: SRC-CONTAINERS
+title: Container orchestration API audit and runtime (Kubernetes)
+transport:
+  protocol: https-api
+  format: vendor-json
+  failure_detection:
+    mechanism: connect-source-monitoring
+    note: >-
+      Loss of flow is detected by monitoring the API-pull job itself: a
+      failed poll, an authentication/authorization error, or a growing gap
+      between now and the last successfully ingested event timestamp
+      triggers an alert within 15 minutes; successful ingestion within the
+      next scoring window after remediation confirms auto-recovery
+      (v409-22.6 alerting-duty interpretation).
+must_emit_event_classes:
+  - EVT-22-3-A
+  - EVT-22-3-B
+  - EVT-22-3-C
+  - EVT-22-3-E
+  - EVT-22-3-G
+  - EVT-22-3-H
+  - EVT-22-3-I
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F
+note: >-
+  ACSC priority #9. Kubernetes API server audit logs and container runtime
+  events. API-server authentication and authorization decisions (EVT-22-3-A,
+  EVT-22-3-B), namespace/role/rolebinding creation and mutation (EVT-22-3-C),
+  pod/container and workload lifecycle (EVT-22-3-E), access to and tampering
+  with audit-log configuration or log volumes (EVT-22-3-G/H), and changes to
+  logging/PodSecurity admission policy (EVT-22-3-I). Preserve the cluster
+  identity (FLD-C), the authenticated user/service-account (FLD-D), and the
+  API-call source IP (FLD-E).

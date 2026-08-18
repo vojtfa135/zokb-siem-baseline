@@ -1,0 +1,38 @@
+id: SRC-MAIL-GATEWAY-ONPREM
+title: On-premises mail gateway (Postfix + Amavis/ClamAV, Exchange Edge Transport)
+transport:
+  protocol: syslog-tls
+  format: rfc5424
+  failure_detection:
+    mechanism: silence-scored-alert
+    note: >-
+      Loss of flow is detected SIEM-side by silence scoring (no events from the
+      source within the scoring window). SIEM rules MUST alert within 15 minutes
+      of the last received event and confirm auto-recovery within the next window
+      after remediation (v409-22.6 alerting-duty interpretation).
+must_emit_event_classes:
+  - EVT-22-3-A
+  - EVT-22-3-B
+  - EVT-22-3-C
+  - EVT-22-3-I
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F
+note: >-
+  On-prem mail-relay/gateway appliance (Postfix + Amavis/ClamAV, Exchange
+  Edge Transport, Sendmail + milters). Event-plane scoping: unlike the cloud
+  variant, this source's own OS/appliance hosts an admin logon surface, so
+  administrative sign-in TO the appliance (SSH/console/webmin) is explicitly
+  INCLUDED here as EVT-22-3-A (device-management plane on this appliance;
+  do not also duplicate via SRC-LINUX/SRC-WINDOWS if the host is already
+  onboarded as a generic OS source -- pick one owner per appliance to avoid
+  double-counting). Quarantine/allow-block-list overrides (EVT-22-3-B),
+  mail-flow/transport rule changes (EVT-22-3-C), and logging-configuration
+  changes (EVT-22-3-I) are the SERVICE plane, same semantics as
+  SRC-MAIL-GATEWAY-CLOUD. Preserve the appliance host id (FLD-C), the
+  acting account (FLD-D), and the originating client IP for admin actions
+  (FLD-E).

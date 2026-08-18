@@ -48,5 +48,8 @@ parameters:
   retention_justification_required: true
 detection_rules:
   - zokb-net-perimeter-block
+  - zokb-net-repeat-perimeter-denials
+  - zokb-net-proxy-blocked-request
+  - zokb-net-repeat-proxy-denials-correlation
   - zokb-malware-antimalware-detection
   - zokb-host-removable-media-autorun

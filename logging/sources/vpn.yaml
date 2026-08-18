@@ -1,0 +1,28 @@
+id: SRC-VPN
+title: Remote access gateways (VPN, RDP gateway, ZTNA)
+transport:
+  protocol: syslog-tls
+  format: rfc5424
+  failure_detection:
+    mechanism: silence-scored-alert
+    note: >-
+      Loss of flow is detected SIEM-side by silence scoring (no events from the
+      source within the scoring window). SIEM rules MUST alert within 15 minutes
+      of the last received event and confirm auto-recovery within the next window
+      after remediation (v409-22.6 alerting-duty interpretation).
+must_emit_event_classes:
+  - EVT-22-3-A
+  - EVT-22-3-D
+  - EVT-DET-PERIMETER
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-F
+note: >-
+  ACSC priority #2 (VPN subsection). Allowed and denied connections,
+  authentication and authorisation events, session lifecycle
+  (CONNECTED/DISCONNECTED/FAILED), assigned and public IPs, session and user
+  identifiers, disconnection reason. Configuration changes on the gateway
+  itself belong to SRC-NETDEV classes. For lower regime FLD-E is optional.

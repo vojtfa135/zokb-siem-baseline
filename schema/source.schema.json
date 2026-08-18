@@ -1,20 +1,75 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["id", "title", "transport", "must_emit_event_classes", "must_emit_fields", "note"],
+  "required": [
+    "id",
+    "title",
+    "transport",
+    "must_emit_event_classes",
+    "must_emit_fields",
+    "note"
+  ],
   "properties": {
-    "id": { "type": "string" },
-    "title": { "type": "string" },
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
     "transport": {
       "type": "object",
-      "required": ["protocol", "format"],
+      "required": [
+        "protocol",
+        "format"
+      ],
       "properties": {
-        "protocol": { "type": "string" },
-        "format": { "type": "string" }
+        "protocol": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "failure_detection": {
+          "type": "object",
+          "required": [
+            "mechanism",
+            "note"
+          ],
+          "description": "How loss of this source's log flow is surfaced (v409-22.6 alerting-duty interpretation). Real-time transports only; batch/API-pull sources rely on job monitoring.",
+          "properties": {
+            "mechanism": {
+              "type": "string",
+              "description": "e.g. silence-scored-alert, heartbeat, connect-source-monitoring."
+            },
+            "note": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
       }
     },
-    "must_emit_event_classes": { "type": "array", "items": { "type": "string" } },
-    "must_emit_fields": { "type": "array", "items": { "type": "string" } },
-    "note": { "type": "string" }
+    "must_emit_event_classes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "must_emit_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "note": {
+      "type": "string"
+    },
+    "deployment_scope": {
+      "type": "array",
+      "description": "Optional deployment-tier hint for onboarding tiering (e.g. ['servers', 'endpoints']). Pure metadata: it must never duplicate or split the source's coverage contract (event classes, field sets stay identical across tiers).",
+      "items": {
+        "type": "string"
+      }
+    }
   }
 }
