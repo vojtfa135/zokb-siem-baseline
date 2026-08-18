@@ -1,0 +1,37 @@
+id: SRC-CLOUD-IAAS
+title: Cloud IaaS control-plane audit (AWS CloudTrail, Azure Activity Log, GCP Cloud Audit Logs)
+transport:
+  protocol: https-api
+  format: vendor-json
+  failure_detection:
+    mechanism: connect-source-monitoring
+    note: >-
+      Loss of flow is detected by monitoring the API-pull job itself: a
+      failed poll, an authentication/authorization error, or a growing gap
+      between now and the last successfully ingested event timestamp
+      triggers an alert within 15 minutes; successful ingestion within the
+      next scoring window after remediation confirms auto-recovery
+      (v409-22.6 alerting-duty interpretation).
+must_emit_event_classes:
+  - EVT-22-3-B
+  - EVT-22-3-C
+  - EVT-22-3-E
+  - EVT-22-3-G
+  - EVT-22-3-H
+  - EVT-22-3-I
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F
+note: >-
+  ACSC priority #8 (IaaS). Cloud control-plane audit logs covering privileged
+  API calls (EVT-22-3-B), IAM/resource changes (EVT-22-3-C), compute lifecycle
+  such as instance start/stop/terminate (EVT-22-3-E), access to and tampering
+  with cloud-trail/log-profile storage (EVT-22-3-G/H), and logging
+  configuration changes including trail deletion or log-profile disablement
+  (EVT-22-3-I). Preserve the cloud account/subscription ID (FLD-C), the
+  calling principal identity (FLD-D), and the source IP of the API caller
+  (FLD-E).

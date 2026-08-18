@@ -1,0 +1,33 @@
+id: SRC-AD-DC
+title: Active Directory domain controllers / central identity provider
+transport:
+  protocol: winrm
+  format: windows-event-log
+  failure_detection:
+    mechanism: heartbeat
+    note: >-
+      WEF subscription and agent heartbeat monitoring: a missing heartbeat or
+      eventflow gap triggers an alert within 15 minutes; after remediation,
+      successful event delivery within the next scoring window confirms auto-
+      recovery (v409-22.6 alerting-duty interpretation).
+must_emit_event_classes:
+  - EVT-22-3-A
+  - EVT-22-3-B
+  - EVT-22-3-C
+  - EVT-22-3-D
+  - EVT-22-3-H
+  - EVT-22-3-I
+  - EVT-22-3-J
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F
+note: >-
+  ACSC priority #3/#4. Kerberos/NTLM authentication (4768/4769/4771/4776),
+  account and group management (4720-4767, 4727-4758), sensitive privilege use
+  (4673/4674), directory service changes (5136-5141), audit-log cleared (1102)
+  and audit-policy changes (4719). Enable the group-policy audit categories
+  listed in the ACSC reference annex.

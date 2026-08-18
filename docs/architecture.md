@@ -38,6 +38,7 @@ flowchart TD
         ECD["logging/event-classes-detection.yaml"]
         RF["logging/required-fields.yaml"]
         SRC["logging/sources/*.yaml"]
+        TECH["logging/technologies/*.yaml<br/>(optional, non-normative)"]
     end
 
     subgraph L4["🔍 Detections · Sigma"]
@@ -63,6 +64,8 @@ flowchart TD
     ECD --> RF
     EC --> SRC
     ECD --> SRC
+    SRC -.->|optional| TECH
+    EC -.->|optional| TECH
     EC --> SIG
     ECD --> SIG
     RF --> SIG
@@ -79,6 +82,7 @@ flowchart TD
     classDef cat fill:#e8f0fe,stroke:#2c5fb3,color:#000;
     classDef prof fill:#fff4d6,stroke:#b8860b,color:#000;
     classDef log fill:#e6f6ec,stroke:#1e8449,color:#000;
+    classDef opt fill:#f5f5f5,stroke:#999,color:#000,stroke-dasharray: 4 2;
     classDef rule fill:#f0e6fa,stroke:#7d3c98,color:#000;
     classDef ci fill:#eaeaea,stroke:#555,color:#000;
 
@@ -86,6 +90,7 @@ flowchart TD
     class CAT409,CAT410,CTL cat;
     class PH,PL prof;
     class EC,ECD,RF,SRC log;
+    class TECH opt;
     class SIG,COR rule;
     class COV,SCHEMA,CI ci;
 ```
@@ -113,6 +118,7 @@ flowchart TD
     detection-controls  ─► logging/event-classes-detection.yaml  (§9(1) a–c)
     event-classes (×2)  ─► logging/required-fields.yaml          (FLD-A…F)
     event-classes (×2)  ─► logging/sources/*.yaml                (win/linux/fw)
+    sources + classes   ┄► logging/technologies/*.yaml           (optional, non-normative)
 
 🔍  DETECTIONS (Sigma)
     event-classes + required-fields ─► detections/**/*.yml

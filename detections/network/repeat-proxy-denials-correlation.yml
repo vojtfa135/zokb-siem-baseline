@@ -1,0 +1,48 @@
+title: Repeated web proxy denials from the same user or host
+id: 6d7e8f9a-0b1c-4d2e-9f3a-4b5c6d7e8f9a
+zokb_rule_id: zokb-net-repeat-proxy-denials-correlation
+status: experimental
+description: >-
+  Correlates repeated proxy blocks from a single user/host within 10
+  minutes. The baseline 'Web proxy blocked request' rule fires on every
+  denial (informational audit of v410-9.1.a); this correlation surfaces
+  persistent sources worth investigating -- possible C2 beaconing or
+  automated exfiltration attempts hitting a category filter repeatedly --
+  and serves the false-positive-reduction duty of v409-23.2.a (recommended
+  practice in the lower regime as well, mirroring
+  zokb-net-repeat-perimeter-denials).
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: zokb-siem-baseline
+date: 2026-08-05
+modified: 2026-08-05
+correlation:
+  type: event_count
+  rules:
+    - 5c6d7e8f-9a0b-4c1d-8e2f-3a4b5c6d7e8f
+  group-by:
+    - user.id
+  timespan: 10m
+  condition:
+    gte: 20
+fields:
+  - '@timestamp'
+  - event.action
+  - user.id
+  - event.outcome
+falsepositives:
+  - Misconfigured internal services or update agents hitting a blocked category
+  - Automated scanners or crawlers (schedule-and-allowlist or tune threshold)
+level: medium
+tags:
+  - zokb.v410.par9.1.a
+  - zokb.v409.par22.3.d
+  - zokb.v409.par23.1.a
+  - zokb.v409.par23.2.a
+  - attack.t1071
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-F

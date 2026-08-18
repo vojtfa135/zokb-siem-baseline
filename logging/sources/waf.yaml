@@ -1,0 +1,37 @@
+id: SRC-WAF
+title: Web application firewalls and L7 edge inspection
+auth_scope: edge
+transport:
+  protocol: syslog-tls
+  format: json
+  failure_detection:
+    mechanism: silence-scored-alert
+    note: >-
+      Loss of flow is detected SIEM-side by silence scoring (no events from the
+      source within the scoring window). SIEM rules MUST alert within 15 minutes
+      of the last received event and confirm auto-recovery within the next window
+      after remediation (v409-22.6 alerting-duty interpretation).
+must_emit_event_classes:
+  - EVT-DET-PERIMETER
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-F
+note: >-
+  Layer-7 verification and blocking of undesirable communication
+  (vyhl. 410/2025 §9(1)(a), as recommended practice also in the higher
+  regime): WAF allow/block decisions on HTTP requests (SQLi, XSS, path
+  traversal, protocol violations, client reputation, rate limiting),
+  including request metadata (method, host, URI, response status, matched
+  rule/policy id). Normalization requirement: deny decisions MUST be
+  normalized to event.category: network + event.type: denied (the shape
+  EVT-DET-PERIMETER and zokb-net-perimeter-block expect); native
+  web/intrusion_detection categories may be kept on informational fields
+  only. The original client is identified via source.ip (FLD-E formally
+  optional in the lower regime and often unknowable behind proxies/CDN —
+  preserve X-Forwarded-For / True-Client-IP where present). Audit of the WAF
+  management plane itself (admin logons, rule/policy changes, logging-config
+  changes) is emitted by the platform sources (SRC-NETDEV / SRC-CLOUD-IAAS)
+  under EVT-22-3-B/I, not by this source.

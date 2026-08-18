@@ -1,0 +1,37 @@
+id: SRC-IDENTITY-DIRECTORY
+title: Unix/Linux identity and directory services (OpenLDAP, FreeIPA, Keycloak, MIT Kerberos KDC)
+transport:
+  protocol: syslog-tls
+  format: rfc5424
+  failure_detection:
+    mechanism: silence-scored-alert
+    note: >-
+      Loss of flow is detected SIEM-side by silence scoring (no events from the
+      source within the scoring window). SIEM rules MUST alert within 15 minutes
+      of the last received event and confirm auto-recovery within the next window
+      after remediation (v409-22.6 alerting-duty interpretation).
+must_emit_event_classes:
+  - EVT-22-3-A
+  - EVT-22-3-B
+  - EVT-22-3-C
+  - EVT-22-3-D
+  - EVT-22-3-J
+must_emit_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F
+note: >-
+  On-prem, non-AD central identity: OpenLDAP/389 DS bind results and audit
+  log, FreeIPA (ipa-* operations, 389ds access/audit), Keycloak login and
+  admin events, MIT Kerberos KDC AS_REQ/TGS_REQ. Authentication success and
+  failure incl. LDAP binds and KDC pre-auth failures (EVT-22-3-A/D), realm
+  and directory administration (EVT-22-3-B), user/group/role lifecycle and
+  credential changes (EVT-22-3-C), and SSO session/token lifecycle — token
+  issuance, refresh, logout (EVT-22-3-J). Keycloak deployments should enable
+  the admin-events SPI and login-event listeners; Kerberos KDC logging must
+  not log ticket/session keys. Host-level classes on the underlying server
+  (processes EVT-22-3-E, errors F, log tampering G/H, logging-config I) are
+  provided by SRC-LINUX, not duplicated here.

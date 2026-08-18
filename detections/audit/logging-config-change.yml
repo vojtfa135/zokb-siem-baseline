@@ -1,0 +1,46 @@
+title: Security logging configuration modification
+id: f4421d16-1404-470a-a5a4-069d832ec13e
+zokb_rule_id: zokb-audit-logging-config-change
+status: experimental
+description: >-
+  Detects changes to audit and logging tool configuration, including audit
+  policy modifications, log retention adjustments, diagnostic-setting changes
+  and logging disablement across all covered source types.
+references:
+  - https://attack.mitre.org/techniques/T1562/
+author: zokb-siem-baseline
+date: 2026-07-31
+modified: 2026-07-31
+logsource:
+  product: any
+  category: configuration
+detection:
+  selection:
+    event.category: configuration
+    event.type: change
+  condition: selection
+fields:
+  - '@timestamp'
+  - event.timezone
+  - event.category
+  - event.type
+  - event.action
+  - host.id
+  - user.id
+  - device.id
+  - source.ip
+  - event.outcome
+falsepositives:
+  - Authorized logging configuration changes by security administrators
+level: high
+tags:
+  - zokb.v409.par22.3.i
+  - zokb.v409.par22.5.c
+  - attack.t1562
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F

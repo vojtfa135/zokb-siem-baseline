@@ -1,0 +1,50 @@
+title: Successful logon following brute-force activity
+id: 89b7e508-636c-44a6-8e93-2463edd814d3
+zokb_rule_id: zokb-auth-post-bruteforce-success
+status: experimental
+description: >-
+  Correlates a successful authentication by an account (or from a source)
+  that recently produced brute-force failures — the classic
+  account-takeover confirmation signal. Implements the incident-identification
+  duty of v409-23.1.c for successful logons (v409-22.3.a) and the grouping
+  duty of v409-23.1.a.
+references:
+  - https://attack.mitre.org/techniques/T1110/
+  - https://attack.mitre.org/techniques/T1078/
+author: zokb-siem-baseline
+date: 2026-07-31
+modified: 2026-07-31
+correlation:
+  type: temporal_ordered
+  rules:
+    - 4c0b0d3d-29e5-4340-8a19-fde7d7c0d486
+    - 54ac94d1-dd71-4dcb-944f-009b2fc50700
+  group-by:
+    - user.id
+    - source.ip
+  timespan: 30m
+fields:
+  - '@timestamp'
+  - event.timezone
+  - event.action
+  - host.id
+  - user.id
+  - device.id
+  - source.ip
+  - event.outcome
+falsepositives:
+  - User finally typing the correct password after repeated mistakes
+level: high
+tags:
+  - zokb.v409.par23
+  - zokb.v409.par23.1.a
+  - zokb.v409.par23.1.c
+  - attack.t1110
+  - attack.t1078
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F

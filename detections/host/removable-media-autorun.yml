@@ -1,9 +1,11 @@
 title: Removable media autorun execution blocked or attempted
 id: ee9b7fd8-471f-4d6a-9d95-c553574f3f9d
+zokb_rule_id: zokb-host-removable-media-autorun
 status: experimental
 description: Detects autorun attempts from removable media and related control actions.
 author: zokb-siem-baseline
 date: 2026-06-09
+modified: 2026-07-31
 logsource:
   product: any
   category: host

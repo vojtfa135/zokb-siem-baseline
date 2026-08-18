@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Technology mapping (logging/technologies/*.yaml)",
+  "description": "Optional, non-normative layer mapping abstract (source, event-class) pairs to concrete vendor/product telemetry. See logging/technologies/README.md.",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "vendor",
+    "product",
+    "implements",
+    "note"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^TECH-([A-Z0-9]+-)?[A-Z0-9]+-[A-Z0-9-]+$",
+      "description": "TECH-[<ORG>-]<VENDOR>-<PRODUCT>, upper-kebab, unique across logging/technologies/."
+    },
+    "title": {
+      "type": "string"
+    },
+    "vendor": {
+      "type": "string",
+      "description": "Vendor slug, e.g. microsoft, fortinet, cisco."
+    },
+    "product": {
+      "type": "string",
+      "description": "Product/telemetry-stream slug, e.g. windows-security, fortigate, asa."
+    },
+    "org": {
+      "type": "string",
+      "description": "Optional organisation slug. Present => this file carries organisational context and is not assumed portable to other deployments of the same product. Must match the ID's <ORG> segment and the filename prefix."
+    },
+    "implements": {
+      "type": "array",
+      "minItems": 1,
+      "description": "One block per abstract source this technology satisfies. A single appliance implementing multiple event planes (e.g. an access-decision source and a device-management source) MUST use separate blocks -- never merge their event_mappings.",
+      "items": {
+        "type": "object",
+        "required": [
+          "source",
+          "event_mappings"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "pattern": "^SRC-"
+          },
+          "event_mappings": {
+            "type": "object",
+            "description": "Keyed by EVT-* class id. Each key MUST be a class the referenced source actually emits (subset of that source's must_emit_event_classes) -- never validated against the union of all implemented sources.",
+            "patternProperties": {
+              "^EVT-": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "record"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Vendor-native selector string identifying the signal: a numeric event id ('4624'), a syslog mnemonic ('%ASA-4-106023'), a cloud event name ('ConsoleLogin'), or -- for technologies with no native event id, e.g. Kubernetes audit -- a free-form field-match expression ('verb=create resource=rolebindings'). NOT required to be unique: the same id may legitimately recur under multiple event classes (e.g. Windows 4688 satisfies several). This is documentation, not a machine-parseable query -- do not build automation that assumes it is machine-resolvable."
+                    },
+                    "record": {
+                      "type": "string",
+                      "description": "Required human-readable description of what the signal represents."
+                    },
+                    "channel": {
+                      "type": "string",
+                      "description": "Log channel/type, e.g. Security, System, traffic."
+                    },
+                    "mnemonic": {
+                      "type": "string",
+                      "description": "Syslog mnemonic/header, if distinct from id."
+                    },
+                    "outcome": {
+                      "type": "string",
+                      "enum": ["success", "failure", "any"]
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "note": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

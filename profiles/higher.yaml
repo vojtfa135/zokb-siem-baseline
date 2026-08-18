@@ -58,3 +58,13 @@ parameters:
 detection_rules:
   - zokb-auth-failed-logons-bruteforce
   - zokb-auth-failed-logons-correlation
+  - zokb-auth-successful-logon
+  - zokb-auth-post-bruteforce-success
+  - zokb-auth-multi-source-logon
+  - zokb-iam-privileged-group-membership-change
+  - zokb-iam-credential-reset-non-owner
+  - zokb-iam-persistence-chain-correlation
+  - zokb-host-suspicious-service-process
+  - zokb-host-error-storm-correlation
+  - zokb-cloud-oauth-consent-mailbox-rule
+  - zokb-net-repeat-perimeter-denials

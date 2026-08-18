@@ -1,0 +1,49 @@
+title: Successful logons from multiple distinct sources in short window
+id: ba10d814-d4eb-4647-b66f-3338f0f16d25
+zokb_rule_id: zokb-auth-multi-source-logon
+status: experimental
+description: >-
+  Correlates successful logons of one account from several distinct source
+  IPs within one hour — an approximation of anomalous-travel / session
+  sharing detection enabled by SRC-VPN and SRC-CLOUD-IDENTITY emitting
+  source.ip.
+  Limitation: true impossible-travel detection requires geolocation
+  enrichment of source.ip at the SIEM layer; this correlation only counts
+  distinct sources. Documented follow-up in docs/detection-lifecycle.md.
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: zokb-siem-baseline
+date: 2026-07-31
+modified: 2026-07-31
+correlation:
+  type: value_count
+  rules:
+    - 54ac94d1-dd71-4dcb-944f-009b2fc50700
+  group-by:
+    - user.id
+  timespan: 1h
+  condition:
+    gte: 3
+    field: source.ip
+fields:
+  - '@timestamp'
+  - event.action
+  - host.id
+  - user.id
+  - source.ip
+  - event.outcome
+falsepositives:
+  - Users with roaming clients (VPN + corporate LAN + mobile within an hour)
+  - Shared service accounts used from multiple automation hosts
+level: medium
+tags:
+  - zokb.v409.par23
+  - zokb.v409.par23.1.a
+  - attack.t1078
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F

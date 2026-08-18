@@ -1,0 +1,45 @@
+title: Repeated perimeter denials from the same source
+id: ebf10ae5-a9a9-4b6f-b044-2423719c0fca
+zokb_rule_id: zokb-net-repeat-perimeter-denials
+status: experimental
+description: >-
+  Correlates repeated perimeter blocks from a single source within 10
+  minutes. The baseline 'Perimeter blocked undesirable communication' rule
+  fires on every denial (informational audit of v410-9.1.a); this
+  correlation surfaces persistent sources worth investigating and serves
+  the false-positive-reduction duty of v409-23.2.a (recommended practice in
+  the lower regime as well).
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: zokb-siem-baseline
+date: 2026-07-31
+modified: 2026-07-31
+correlation:
+  type: event_count
+  rules:
+    - a0837619-f53c-4ac5-85de-e95a07495ede
+  group-by:
+    - source.ip
+  timespan: 10m
+  condition:
+    gte: 20
+fields:
+  - '@timestamp'
+  - event.action
+  - source.ip
+  - event.outcome
+falsepositives:
+  - MISconfigured internal services hammering a closed port
+  - Vulnerability scanners (schedule-and-allowlist or tune threshold)
+level: medium
+tags:
+  - zokb.v410.par9.1.a
+  - zokb.v409.par23.1.a
+  - zokb.v409.par23.2.a
+  - attack.t1046
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-F

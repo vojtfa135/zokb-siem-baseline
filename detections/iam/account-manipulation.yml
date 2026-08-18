@@ -1,0 +1,50 @@
+title: Account, permission or privilege manipulation
+id: 9c2b1059-8910-41b2-9d2e-0a7af9029eb0
+zokb_rule_id: zokb-iam-account-manipulation
+status: experimental
+description: >-
+  Detects creation, modification or deletion of accounts, group memberships,
+  permissions and credentials across local systems, Active Directory, cloud
+  identity providers and container RBAC stores.
+references:
+  - https://attack.mitre.org/techniques/T1098/
+  - https://attack.mitre.org/techniques/T1136/
+author: zokb-siem-baseline
+date: 2026-07-31
+modified: 2026-07-31
+logsource:
+  product: any
+  category: iam
+detection:
+  selection:
+    event.category: iam
+    event.type:
+      - creation
+      - change
+      - deletion
+  condition: selection
+fields:
+  - '@timestamp'
+  - event.timezone
+  - event.category
+  - event.type
+  - event.action
+  - host.id
+  - user.id
+  - device.id
+  - source.ip
+  - event.outcome
+falsepositives:
+  - Legitimate account administration by authorized IT staff
+level: medium
+tags:
+  - zokb.v409.par22.3.c
+  - attack.t1098
+  - attack.t1136
+zokb_required_fields:
+  - FLD-A
+  - FLD-B
+  - FLD-C
+  - FLD-D
+  - FLD-E
+  - FLD-F
